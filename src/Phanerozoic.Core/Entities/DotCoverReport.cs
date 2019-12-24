@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 public partial class DotCoverReport
 {
@@ -20,4 +21,5 @@ public partial class DotCoverReportChild
     public List<DotCoverReportChild> Children { get; set; }
 }
 
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum Kind { Root, AnonymousMethod, Assembly, AutoProperty, Constructor, InternalCompiledMethod, Method, Namespace, OwnCoverage, Property, PropertyGetter, PropertySetter, Type };

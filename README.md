@@ -5,6 +5,12 @@ Parser, Update and Notify.
 ## Naming
 > [顯生宙](https://zh.wikipedia.org/wiki/%E6%98%BE%E7%94%9F%E5%AE%99)  
 
+## Step
+1. Git Pull develop	取得程式碼
+2. MSBuild			建置
+3. dotCover			計算涵蓋率
+4. Phanerozoic		更新涵蓋率
+
 ## Coverage Tool
 ### dotcover
 ```
