@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Phanerozoic.Core.Helpers
 {
-    public class SheetHelper
+    public static class SheetHelper
     {
         /// <summary>
         /// Index 轉 Sheet Column
@@ -54,6 +54,28 @@ namespace Phanerozoic.Core.Helpers
                 var str = obj.ToString();
                 int value;
                 return int.TryParse(str, out value) ? value : default;
+            }
+            return default;
+        }
+
+        public static decimal ObjectToDecimal(this object obj)
+        {
+            if (obj != null)
+            {
+                var str = obj.ToString();
+                decimal value;
+                return decimal.TryParse(str, out value) ? value : default;
+            }
+            return default;
+        }
+
+        public static decimal? ObjectToNullableDecimal(this object obj)
+        {
+            if (obj != null)
+            {
+                var str = obj.ToString();
+                decimal value;
+                return decimal.TryParse(str, out value) ? value : default(decimal?);
             }
             return default;
         }
