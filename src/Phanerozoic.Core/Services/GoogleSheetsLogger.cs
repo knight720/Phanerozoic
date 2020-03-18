@@ -49,16 +49,7 @@ namespace Phanerozoic.Core.Services
             //// Write Log Data
             int firstColumn = 4;
             var now = this._dateTimeHelper.Now;
-            int week = this.GetWeek(now);
-            int column = firstColumn + week;
-            string columnLetter = SheetHelper.ColumnToLetter(column);
-
-            //// Write Column Name
-            var columnName = $"{week}({now.ToString("MM/dd")})";
-            Console.WriteLine($"Write Column: {columnName}");
-            var range = $"{now.Year}!{columnLetter}1";
-            var values = SheetHelper.ObjectToValues(columnName);
-            this._googleSheetsService.SetValue(this._sheetsId, range, values);
+            var col = this.GetColumnLetterByWeek(firstColumn, now);
 
             //// Write Method
             Console.WriteLine("** Write Coverage Log");
@@ -67,8 +58,8 @@ namespace Phanerozoic.Core.Services
                 if (method.Status != CoverageStatus.Unchange)
                 {
                     Console.WriteLine($"{method.ToString()}");
-                    range = $"{now.Year}!{columnLetter}{method.RawIndex}";
-                    values = SheetHelper.ObjectToValues(method.Coverage);
+                    var range = $"{now.Year}!{col.columnLetter}{method.RawIndex}";
+                    var values = SheetHelper.ObjectToValues(method.Coverage);
                     this._googleSheetsService.SetValue(this._sheetsId, range, values);
                 }
             }
@@ -81,18 +72,34 @@ namespace Phanerozoic.Core.Services
                 Console.WriteLine($"{method.ToString()}");
 
                 ++index;
-                range = $"{now.Year}!A{index}:{columnLetter}{index}";
+                var range = $"{now.Year}!A{index}:{col.columnLetter}{index}";
 
-                var row = new object[column];
+                var row = new object[col.column];
                 row[0] = method.Repository;
                 row[1] = method.Project;
                 row[2] = method.Class;
                 row[3] = method.Method;
-                row[column - 1] = method.Coverage;
-                values = new List<IList<object>> { row };
+                row[col.column - 1] = method.Coverage;
+                var values = new List<IList<object>> { row };
 
                 this._googleSheetsService.SetValue(this._sheetsId, range, values);
             }
+        }
+
+        private (int column, string columnLetter) GetColumnLetterByWeek(int firstColumn, DateTime now)
+        {
+            var week = this.GetWeek(now);
+            var column = firstColumn + week;
+            var columnLetter = SheetHelper.ColumnToLetter(column);
+
+            //// Write Column Name
+            var columnName = $"{week}({now.ToString("MM/dd")})";
+            Console.WriteLine($"Write Column: {columnName}");
+            var range = $"{now.Year}!{columnLetter}1";
+            var values = SheetHelper.ObjectToValues(columnName);
+            this._googleSheetsService.SetValue(this._sheetsId, range, values);
+
+            return (column, columnLetter);
         }
 
         private int GetWeek(DateTime now)
