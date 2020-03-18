@@ -102,6 +102,22 @@ namespace Phanerozoic.Core.Services
             return (column, columnLetter);
         }
 
+        private (int column, string columnLetter) GetColumnLetterByDay(int firstColumn, DateTime now)
+        {
+            var dayOfYear = now.DayOfYear;
+            var column = firstColumn + dayOfYear;
+            var columnLetter = SheetHelper.ColumnToLetter(column);
+
+            //// Write Column Name
+            var columnName = $"{dayOfYear}({now.ToString("MM/dd")})";
+            Console.WriteLine($"Write Column: {columnName}");
+            var range = $"{now.Year}!{columnLetter}1";
+            var values = SheetHelper.ObjectToValues(columnName);
+            this._googleSheetsService.SetValue(this._sheetsId, range, values);
+
+            return (column, columnLetter);
+        }
+
         private int GetWeek(DateTime now)
         {
             var week = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(now, CalendarWeekRule.FirstDay, DayOfWeek.Sunday);
