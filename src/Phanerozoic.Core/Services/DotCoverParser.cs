@@ -68,13 +68,13 @@ namespace Phanerozoic.Core.Services
 
             foreach (var item in source)
             {
-                var iName = parentName;
+                var currentName = string.Empty;
                 if (item.Kind == Kind.Method)
                 {
                     var covearge = new MethodEntity
                     {
                         Project = assembly,
-                        Class = iName.Remove(iName.Length - 1, 1),
+                        Class = parentName,
                         Method = item.Name,
                         Coverage = (int)item.CoveragePercent,
                     };
@@ -85,37 +85,30 @@ namespace Phanerozoic.Core.Services
                     var coverage = new MethodEntity
                     {
                         Project = assembly,
-                        Class = $"{iName}{item.Name}",
+                        Class = $"{parentName}.{item.Name}",
                         Method = "*",
                         Coverage = (int)item.CoveragePercent,
                     };
                     result.Add(coverage);
-                    iName += $"{item.Name}.";
-                    FindMethod(result, assembly, iName, item.Children);
+                    currentName = coverage.Class;
                 }
                 else if (item.Kind == Kind.Namespace)
                 {
                     var coverage = new MethodEntity
                     {
                         Project = assembly,
-                        Class = $"{iName}{item.Name}.*",
+                        Class = $"{item.Name}.*",
                         Method = "*",
                         Coverage = (int)item.CoveragePercent,
                     };
                     result.Add(coverage);
-                    iName += $"{item.Name}.";
-                    FindMethod(result, assembly, iName, item.Children);
+                    currentName = item.Name;
                 }
                 else if (item.Kind == Kind.Assembly)
                 {
                     assembly = item.Name;
-                    FindMethod(result, assembly, iName, item.Children);
                 }
-                else
-                {
-                    iName += $"{item.Name}.";
-                    FindMethod(result, assembly, iName, item.Children);
-                }
+                FindMethod(result, assembly, currentName, item.Children);
             }
         }
     }
