@@ -85,7 +85,20 @@ namespace Phanerozoic.Core.Services
                     var coverage = new MethodEntity
                     {
                         Project = assembly,
-                        Class = iName + item.Name,
+                        Class = $"{iName}{item.Name}",
+                        Method = "*",
+                        Coverage = (int)item.CoveragePercent,
+                    };
+                    result.Add(coverage);
+                    iName += $"{item.Name}.";
+                    FindMethod(result, assembly, iName, item.Children);
+                }
+                else if (item.Kind == Kind.Namespace)
+                {
+                    var coverage = new MethodEntity
+                    {
+                        Project = assembly,
+                        Class = $"{iName}{item.Name}.*",
                         Method = "*",
                         Coverage = (int)item.CoveragePercent,
                     };
