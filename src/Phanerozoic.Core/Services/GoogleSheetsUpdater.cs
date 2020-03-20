@@ -89,7 +89,7 @@ namespace Phanerozoic.Core.Services
                 symbolDictionary.Add(CoverageStatus.Down, "▼");
                 var symbol = symbolDictionary[coreMethod.Status];
 
-                Console.WriteLine($"{coreMethod.Class}.{coreMethod.Method}: {coreMethod.LastCoverage} {symbol} {coreMethod.Coverage}");
+                Console.WriteLine($"{coreMethod.Project}: {coreMethod.Class}.{coreMethod.Method}: {coreMethod.LastCoverage} {symbol} {coreMethod.Coverage}");
 
                 if (coreMethod.Status != CoverageStatus.Unchange || coreMethod.Coverage == 0)
                 {
