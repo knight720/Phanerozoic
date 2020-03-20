@@ -79,5 +79,12 @@ namespace Phanerozoic.Core.Helpers
             }
             return default;
         }
+
+        public static IList<IList<object>> ArrayToObjectList(object[] objArray)
+        {
+            var row = new List<object>();
+            row.AddRange(objArray);
+            return new List<IList<object>> { row };
+        }
     }
 }
