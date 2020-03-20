@@ -69,44 +69,53 @@ namespace Phanerozoic.Core.Services
             foreach (var item in source)
             {
                 var currentName = string.Empty;
+                MethodEntity currentCoverage = default;
                 if (item.Kind == Kind.Method)
                 {
-                    var covearge = new MethodEntity
+                    currentCoverage = new MethodEntity
                     {
                         Project = assembly,
                         Class = parentName,
                         Method = item.Name,
                         Coverage = (int)item.CoveragePercent,
                     };
-                    result.Add(covearge);
                 }
                 else if (item.Kind == Kind.Type)
                 {
-                    var coverage = new MethodEntity
+                    currentCoverage = new MethodEntity
                     {
                         Project = assembly,
                         Class = $"{parentName}.{item.Name}",
                         Method = "*",
                         Coverage = (int)item.CoveragePercent,
                     };
-                    result.Add(coverage);
-                    currentName = coverage.Class;
+                    currentName = currentCoverage.Class;
                 }
                 else if (item.Kind == Kind.Namespace)
                 {
-                    var coverage = new MethodEntity
+                    currentCoverage = new MethodEntity
                     {
                         Project = assembly,
                         Class = $"{item.Name}.*",
                         Method = "*",
                         Coverage = (int)item.CoveragePercent,
                     };
-                    result.Add(coverage);
                     currentName = item.Name;
                 }
                 else if (item.Kind == Kind.Assembly)
                 {
                     assembly = item.Name;
+                    currentCoverage = new MethodEntity
+                    {
+                        Project = assembly,
+                        Class = "*",
+                        Method = "*",
+                        Coverage = (int)item.CoveragePercent,
+                    };
+                }
+                if (currentCoverage != null)
+                {
+                    result.Add(currentCoverage);
                 }
                 FindMethod(result, assembly, currentName, item.Children);
             }
