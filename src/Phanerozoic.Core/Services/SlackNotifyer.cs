@@ -82,7 +82,20 @@ namespace Phanerozoic.Core.Services
             {
                 if (method.Status == CoverageStatus.Down)
                 {
-                    var msg = $"{method.Class}.{method.Method}: {method.LastCoverage} → {method.Coverage}";
+                    var name = string.Empty;
+                    if (method.Class == "*")
+                    {
+                        name = $"(Project){method.Project}";
+                    }
+                    else if (method.Class.Contains(".*"))
+                    {
+                        name = $"(Namespace){method.Class.Substring(0, method.Class.Length - 2)}";
+                    }
+                    else
+                    {
+                        name = $"{method.Class}.{method.Method}";
+                    }
+                    var msg = $"{name}: {method.LastCoverage} → {method.Coverage}";
                     stringBuilder.AppendLine(msg);
                 }
             }
