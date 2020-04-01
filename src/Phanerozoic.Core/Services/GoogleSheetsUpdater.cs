@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Phanerozoic.Core.Entities;
 using Phanerozoic.Core.Helpers;
+using Phanerozoic.Core.Services.Interface;
 
 namespace Phanerozoic.Core.Services
 {
@@ -12,12 +13,14 @@ namespace Phanerozoic.Core.Services
     {
         private readonly IConfiguration _configuration;
         private readonly IGoogleSheetsService _googleSheetsService;
+        private readonly ICoverageReader _coverageReader;
         private string _sheetsId;
 
         public GoogleSheetsUpdater(IServiceProvider serviceProvider, IConfiguration configuration)
         {
             this._configuration = configuration;
             this._googleSheetsService = serviceProvider.GetService<IGoogleSheetsService>();
+            this._coverageReader = serviceProvider.GetService<ICoverageReader>();
 
             this._sheetsId = this._configuration["Google:Sheets:Id"];
 
@@ -31,35 +34,7 @@ namespace Phanerozoic.Core.Services
             Console.WriteLine("** Report Method");
             Console.WriteLine($"Repository: {coverageEntity.Repository}, Project: {coverageEntity.Project}, Method Count: {reportMethodList.Count}/{reportMethodTotalCount}");
 
-            var startIndex = 1;
-            var maxRow = string.Empty;
-            var sheetName = "Coverage";
-            IList<MethodEntity> sheetMethodList = new List<MethodEntity>();
-            IList<IList<object>> values = this._googleSheetsService.GetValues(this._sheetsId, $"{sheetName}!A{startIndex + 1}:I{maxRow}");
-
-            var index = startIndex;
-            if (values != null && values.Count > 0)
-            {
-                foreach (var row in values)
-                {
-                    index++;
-                    var methodEntity = new MethodEntity
-                    {
-                        Repository = row[0].ToString().Trim(),
-                        Project = row[1].ToString().Trim(),
-                        Class = row[2].ToString().Trim(),
-                        Method = row[3].ToString().Trim(),
-                        Coverage = row.Count > 4 ? SheetHelper.ObjectToInt(row[4]) : 0,
-                        RawIndex = index,
-                        RawData = row,
-                    };
-
-                    if (string.IsNullOrWhiteSpace(methodEntity.Method) == false)
-                    {
-                        sheetMethodList.Add(methodEntity);
-                    }
-                }
-            }
+            IList<MethodEntity> sheetMethodList = this._coverageReader.GetList();
 
             var sheetMethodTotalCount = sheetMethodList.Count;
             sheetMethodList = this.FilterMethod(coverageEntity, sheetMethodList);
