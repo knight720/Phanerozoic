@@ -41,6 +41,7 @@ namespace Phanerozoic.Core.Services.Googles
                         Class = row[2].ToString().Trim(),
                         Method = row[3].ToString().Trim(),
                         Coverage = row.Count > 4 ? SheetHelper.ObjectToInt(row[4]) : 0,
+                        TargetCoverage = row.Count > 9 ? SheetHelper.ObjectToInt(row[9]) : 0,
                         RawIndex = index,
                         RawData = row,
                     };

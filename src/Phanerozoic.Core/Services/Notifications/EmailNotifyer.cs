@@ -50,7 +50,7 @@ namespace Phanerozoic.Core.Services.Notifications
             stringBuilder.AppendLine($"Repository: {coverageEntity.Repository}");
             stringBuilder.AppendLine($"Project: {coverageEntity.Project}");
             stringBuilder.AppendLine($"Coverage Down Rate: {downMethod.Count}/{projectMethod.Count}");
-            downMethod.ForEach(i => stringBuilder.AppendLine($"{i.Class}.{i.Method}: {i.LastCoverage} → {i.Coverage}"));
+            downMethod.ForEach(i => stringBuilder.AppendLine($"{i.Class}.{i.Method}: {i.TargetCoverage} → {i.Coverage}"));
 
             this._emailService.Send(this._from, this._toList, subject, stringBuilder.ToString());
         }

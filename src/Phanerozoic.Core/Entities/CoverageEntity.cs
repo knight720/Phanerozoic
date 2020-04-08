@@ -11,11 +11,11 @@ namespace Phanerozoic.Core.Entities
         public string Method { get; set; }
         public int Coverage { get; set; }
         public CoverageStatus Status { get; set; }
-        public int? LastCoverage { get; private set; }
         public int RawIndex { get; set; }
         public IList<object> RawData { get; set; }
         public string Team { get; set; }
         public string UpdatedDate { get; set; }
+        public int TargetCoverage { get; set; }
 
         public override string ToString()
         {
@@ -41,7 +41,6 @@ namespace Phanerozoic.Core.Entities
             {
                 this.Status = CoverageStatus.Up;
             }
-            this.LastCoverage = this.Coverage;
             this.Coverage = method.Coverage;
         }
 

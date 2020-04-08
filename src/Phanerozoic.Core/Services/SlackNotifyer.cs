@@ -49,7 +49,7 @@ namespace Phanerozoic.Core.Services
             {
                 if (method.Status == CoverageStatus.Down)
                 {
-                    var msg = $"{method.Class}.{method.Method}: {method.LastCoverage} → {method.Coverage}";
+                    var msg = $"{method.Class}.{method.Method}: {method.TargetCoverage} → {method.Coverage}";
                     stringBuilder.AppendLine(msg);
                 }
             }
@@ -95,7 +95,7 @@ namespace Phanerozoic.Core.Services
                     {
                         name = $"{method.Class}.{method.Method}";
                     }
-                    var msg = $"{name}: {method.LastCoverage} → {method.Coverage}";
+                    var msg = $"{name}: {method.TargetCoverage} → {method.Coverage}";
                     stringBuilder.AppendLine(msg);
                 }
             }
