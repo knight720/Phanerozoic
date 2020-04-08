@@ -29,19 +29,21 @@ namespace Phanerozoic.Core.Entities
                 throw new ApplicationException($"MethodEntity Not Match! {this.ToString()} vs {method.ToString()}");
             }
 
-            if (this.Coverage == method.Coverage)
+            this.Coverage = method.Coverage;
+
+            if (this.TargetCoverage == this.Coverage)
             {
                 this.Status = CoverageStatus.Unchange;
             }
-            else if (this.Coverage > method.Coverage)
+            else if (this.TargetCoverage > this.Coverage)
             {
                 this.Status = CoverageStatus.Down;
             }
             else
             {
                 this.Status = CoverageStatus.Up;
+                this.TargetCoverage = this.Coverage;
             }
-            this.Coverage = method.Coverage;
         }
 
         public override bool Equals(object obj)
