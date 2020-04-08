@@ -24,12 +24,12 @@ namespace Phanerozoic.Core.Services
             bool.TryParse(this._configuration["Parser:PrintMethod"], out this._printMethod);
         }
 
-        public IList<MethodEntity> Parser(CoreMethodCoverageEntity coverageEntity, ReportEntity reportEntity)
+        public IList<CoverageEntity> Parser(CoreMethodCoverageEntity coverageEntity, ReportEntity reportEntity)
         {
             var json = this._fileHelper.ReadAllText(reportEntity.FilePath);
             var report = JsonSerializer.Deserialize<DotCoverReport>(json);
 
-            var result = new List<MethodEntity>();
+            var result = new List<CoverageEntity>();
             FindMethod(result, string.Empty, string.Empty, report.Children);
 
             //// Method without argument
@@ -59,7 +59,7 @@ namespace Phanerozoic.Core.Services
         /// </summary>
         /// <param name="result">回傳值</param>
         /// <param name="source">目前的階層</param>
-        private void FindMethod(List<MethodEntity> result, string assembly, string parentName, List<DotCoverReportChild> source)
+        private void FindMethod(List<CoverageEntity> result, string assembly, string parentName, List<DotCoverReportChild> source)
         {
             if (source == null)
             {
@@ -69,10 +69,10 @@ namespace Phanerozoic.Core.Services
             foreach (var item in source)
             {
                 var currentName = string.Empty;
-                MethodEntity currentCoverage = default;
+                CoverageEntity currentCoverage = default;
                 if (item.Kind == Kind.Method)
                 {
-                    currentCoverage = new MethodEntity
+                    currentCoverage = new CoverageEntity
                     {
                         Project = assembly,
                         Class = parentName,
@@ -82,7 +82,7 @@ namespace Phanerozoic.Core.Services
                 }
                 else if (item.Kind == Kind.Type)
                 {
-                    currentCoverage = new MethodEntity
+                    currentCoverage = new CoverageEntity
                     {
                         Project = assembly,
                         Class = $"{parentName}.{item.Name}",
@@ -93,7 +93,7 @@ namespace Phanerozoic.Core.Services
                 }
                 else if (item.Kind == Kind.Namespace)
                 {
-                    currentCoverage = new MethodEntity
+                    currentCoverage = new CoverageEntity
                     {
                         Project = assembly,
                         Class = $"{item.Name}.*",
@@ -105,7 +105,7 @@ namespace Phanerozoic.Core.Services
                 else if (item.Kind == Kind.Assembly)
                 {
                     assembly = item.Name;
-                    currentCoverage = new MethodEntity
+                    currentCoverage = new CoverageEntity
                     {
                         Project = assembly,
                         Class = "*",

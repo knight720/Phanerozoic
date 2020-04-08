@@ -38,7 +38,7 @@ namespace Phanerozoic.Core.Test.Services
         {
             //// Arrange
             var coverageEntity = new CoreMethodCoverageEntity();
-            var methodList = new List<MethodEntity>();
+            var methodList = new List<CoverageEntity>();
 
             this._stubConfiguration["Google.Sheets.SheetsId"].Returns("target Id");
 

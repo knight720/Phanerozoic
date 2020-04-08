@@ -24,7 +24,7 @@ namespace Phanerozoic.Core.Services
             this._webHookUrl = configuration["Slack:WebHookUrl"];
         }
 
-        public void Notify(CoreMethodCoverageEntity coverageEntity, IList<MethodEntity> methodList)
+        public void Notify(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
         {
             var slackMessageJson = this.GetSlackMessage(coverageEntity, methodList);
 
@@ -36,7 +36,7 @@ namespace Phanerozoic.Core.Services
             this._slackService.SendAsync(this._webHookUrl, slackMessageJson);
         }
 
-        private string GetMessage(CoreMethodCoverageEntity coverageEntity, IList<MethodEntity> methodList)
+        private string GetMessage(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
         {
             var stringBuilder = new StringBuilder();
             stringBuilder.AppendLine($"Phanerozoic Notify @{DateTime.Now.ToString(DateTimeHelper.Format)}");
@@ -60,7 +60,7 @@ namespace Phanerozoic.Core.Services
             return json;
         }
 
-        private string GetSlackMessage(CoreMethodCoverageEntity coverageEntity, IList<MethodEntity> methodList)
+        private string GetSlackMessage(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
         {
             var downCount = methodList.Count(i => i.Status == CoverageStatus.Down);
             if (downCount == 0)

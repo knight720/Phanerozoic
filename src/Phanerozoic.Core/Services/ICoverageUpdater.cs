@@ -5,6 +5,6 @@ namespace Phanerozoic.Core.Services
 {
     public interface ICoverageUpdater
     {
-        IList<MethodEntity> Update(CoreMethodCoverageEntity coverageEntity, IList<MethodEntity> methodList);
+        IList<CoverageEntity> Update(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> methodList);
     }
 }

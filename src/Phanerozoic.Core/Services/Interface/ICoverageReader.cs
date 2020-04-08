@@ -5,6 +5,6 @@ namespace Phanerozoic.Core.Services.Interface
 {
     public interface ICoverageReader
     {
-        IList<MethodEntity> GetList();
+        IList<CoverageEntity> GetList();
     }
 }

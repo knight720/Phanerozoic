@@ -36,7 +36,7 @@ namespace Phanerozoic.Core.Services.Notifications
             }
         }
 
-        public void Notify(CoreMethodCoverageEntity coverageEntity, IList<MethodEntity> methodList)
+        public void Notify(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
         {
             Console.WriteLine($"Email From: {this._from}");
             Console.WriteLine($"To: {string.Join(',', this._toList)}");

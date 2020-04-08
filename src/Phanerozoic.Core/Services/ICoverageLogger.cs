@@ -5,6 +5,6 @@ namespace Phanerozoic.Core.Services
 {
     public interface ICoverageLogger
     {
-        void Log(IList<MethodEntity> methodList);
+        void Log(IList<CoverageEntity> methodList);
     }
 }

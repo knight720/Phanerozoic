@@ -35,21 +35,21 @@ namespace Phanerozoic.Core.Test.Services
                 Repository = "Phanerozoic"
             };
 
-            var methodUnchange = new MethodEntity
+            var methodUnchange = new CoverageEntity
             {
                 Class = "AClass",
                 Method = "AMethod",
                 Status = CoverageStatus.Unchange,
                 Coverage = 23,
             };
-            var methodUp = new MethodEntity
+            var methodUp = new CoverageEntity
             {
                 Class = "AClass",
                 Method = "AMethod",
                 Status = CoverageStatus.Up,
                 Coverage = 23,
             };
-            var methodList = new List<MethodEntity>
+            var methodList = new List<CoverageEntity>
             {
                 methodUnchange,
                 methodUp,
@@ -76,14 +76,14 @@ namespace Phanerozoic.Core.Test.Services
                 Repository = "Phanerozoic"
             };
 
-            var method = new MethodEntity
+            var method = new CoverageEntity
             {
                 Class = "AClass",
                 Method = "AMethod",
                 Status = CoverageStatus.Down,
                 Coverage = 23,
             };
-            var methodList = new List<MethodEntity>
+            var methodList = new List<CoverageEntity>
             {
                 method,
             };

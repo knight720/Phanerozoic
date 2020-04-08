@@ -27,14 +27,14 @@ namespace Phanerozoic.Core.Services
             Console.WriteLine($"Target Sheets ID: {this._sheetsId}");
         }
 
-        public IList<MethodEntity> Update(CoreMethodCoverageEntity coverageEntity, IList<MethodEntity> reportMethodList)
+        public IList<CoverageEntity> Update(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> reportMethodList)
         {
             var reportMethodTotalCount = reportMethodList.Count;
             reportMethodList = this.FilterMethod(coverageEntity, reportMethodList);
             Console.WriteLine("** Report Method");
             Console.WriteLine($"Repository: {coverageEntity.Repository}, Project: {coverageEntity.Project}, Method Count: {reportMethodList.Count}/{reportMethodTotalCount}");
 
-            IList<MethodEntity> sheetMethodList = this._coverageReader.GetList();
+            IList<CoverageEntity> sheetMethodList = this._coverageReader.GetList();
 
             var sheetMethodTotalCount = sheetMethodList.Count;
             sheetMethodList = this.FilterMethod(coverageEntity, sheetMethodList);
@@ -83,7 +83,7 @@ namespace Phanerozoic.Core.Services
         /// <param name="coverageEntity"></param>
         /// <param name="methodList"></param>
         /// <returns></returns>
-        private IList<MethodEntity> FilterMethod(CoreMethodCoverageEntity coverageEntity, IList<MethodEntity> methodList)
+        private IList<CoverageEntity> FilterMethod(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
         {
             return methodList.Where(i =>
                             i.Repository == coverageEntity.Repository &&

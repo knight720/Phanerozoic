@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Phanerozoic.Core.Entities
 {
-    public class MethodEntity
+    public class CoverageEntity
     {
         public string Repository { get; set; }
         public string Project { get; set; }
@@ -22,7 +22,7 @@ namespace Phanerozoic.Core.Entities
             return $"{Class}.{Method}:{Coverage}";
         }
 
-        public void UpdateCoverage(MethodEntity method)
+        public void UpdateCoverage(CoverageEntity method)
         {
             if (this.Equals(method) == false)
             {
@@ -47,9 +47,9 @@ namespace Phanerozoic.Core.Entities
 
         public override bool Equals(object obj)
         {
-            if (obj != null && obj is MethodEntity)
+            if (obj != null && obj is CoverageEntity)
             {
-                var target = (MethodEntity)obj;
+                var target = (CoverageEntity)obj;
                 return (this.Repository == target.Repository &&
                     this.Project == target.Project &&
                     this.Class == target.Class &&

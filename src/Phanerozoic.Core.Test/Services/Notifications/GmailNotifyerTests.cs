@@ -34,9 +34,9 @@ namespace Phanerozoic.Core.Services.Notifications.Tests
                 Repository = repository,
                 Project = project,
             };
-            var methodList = new List<MethodEntity>
+            var methodList = new List<CoverageEntity>
             {
-                new MethodEntity
+                new CoverageEntity
                 {
                     Repository = repository,
                     Project = project,

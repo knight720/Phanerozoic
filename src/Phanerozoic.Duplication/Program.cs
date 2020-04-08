@@ -99,14 +99,14 @@ namespace Phanerozoic.Duplication
             googleSheetsService.SetValue(targetId, targetRange, sourceList);
         }
 
-        private static List<MethodEntity> SheetRangeToEntityList(IList<IList<object>> sheetRange)
+        private static List<CoverageEntity> SheetRangeToEntityList(IList<IList<object>> sheetRange)
         {
-            List<MethodEntity> methodList = new List<MethodEntity>();
+            List<CoverageEntity> methodList = new List<CoverageEntity>();
             if (sheetRange != null && sheetRange.Count > 0)
             {
                 foreach (var row in sheetRange)
                 {
-                    var methodEntity = new MethodEntity
+                    var methodEntity = new CoverageEntity
                     {
                         Repository = row[0].ToString().Trim(),
                         Project = row[1].ToString().Trim(),
@@ -128,7 +128,7 @@ namespace Phanerozoic.Duplication
             return methodList;
         }
 
-        private static IList<IList<object>> EntityListToSheetRange(List<MethodEntity> methodList)
+        private static IList<IList<object>> EntityListToSheetRange(List<CoverageEntity> methodList)
         {
             var rowList = new List<IList<object>>();
             foreach (var method in methodList)

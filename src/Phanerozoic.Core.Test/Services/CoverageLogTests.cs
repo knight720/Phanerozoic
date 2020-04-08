@@ -52,9 +52,9 @@ namespace Phanerozoic.Core.Services.Tests
             this._stubGoogleSheetsService.ClearReceivedCalls();
 
             //// Arrange
-            var methodList = new List<MethodEntity>
+            var methodList = new List<CoverageEntity>
             {
-                new MethodEntity()
+                new CoverageEntity()
             };
             this._stubDateTimeHelper.Now.Returns(time);
 

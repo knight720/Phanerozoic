@@ -20,12 +20,12 @@ namespace Phanerozoic.Core.Services.Googles
             this._sheetsId = configuration["Google:Sheets:Id"];
         }
 
-        public IList<MethodEntity> GetList()
+        public IList<CoverageEntity> GetList()
         {
             var startIndex = 1;
             var maxRow = string.Empty;
             var sheetName = "Coverage";
-            IList<MethodEntity> sheetMethodList = new List<MethodEntity>();
+            IList<CoverageEntity> sheetMethodList = new List<CoverageEntity>();
             IList<IList<object>> values = this._googleSheetsService.GetValues(this._sheetsId, $"{sheetName}!A{startIndex + 1}:I{maxRow}");
 
             var index = startIndex;
@@ -34,7 +34,7 @@ namespace Phanerozoic.Core.Services.Googles
                 foreach (var row in values)
                 {
                     index++;
-                    var methodEntity = new MethodEntity
+                    var methodEntity = new CoverageEntity
                     {
                         Repository = row[0].ToString().Trim(),
                         Project = row[1].ToString().Trim(),

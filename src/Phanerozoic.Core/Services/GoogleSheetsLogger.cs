@@ -25,13 +25,13 @@ namespace Phanerozoic.Core.Services
             this._sheetsId = this._configuration["Google:Sheets:Id"];
         }
 
-        public void Log(IList<MethodEntity> methodList)
+        public void Log(IList<CoverageEntity> methodList)
         {
             //// Load Sheet Log Data
             var currentMethodList = GetCurrentMethodList();
 
             //// Sync Method and Coverage
-            var newMethodList = new List<MethodEntity>();
+            var newMethodList = new List<CoverageEntity>();
             foreach (var method in methodList)
             {
                 var methodLog = currentMethodList.FirstOrDefault(i => i.Equals(method));
@@ -124,12 +124,12 @@ namespace Phanerozoic.Core.Services
             return week;
         }
 
-        private List<MethodEntity> GetCurrentMethodList()
+        private List<CoverageEntity> GetCurrentMethodList()
         {
             var now = this._dateTimeHelper.Now;
             var startIndex = 1;
             var maxRow = string.Empty;
-            List<MethodEntity> methodLogList = new List<MethodEntity>();
+            List<CoverageEntity> methodLogList = new List<CoverageEntity>();
             IList<IList<object>> values = this._googleSheetsService.GetValues(this._sheetsId, $"{now.Year}!A{startIndex + 1}:I{maxRow}");
 
             var index = startIndex;
@@ -143,7 +143,7 @@ namespace Phanerozoic.Core.Services
                     }
 
                     index++;
-                    var methodEntity = new MethodEntity
+                    var methodEntity = new CoverageEntity
                     {
                         Repository = row[0].ToString().Trim(),
                         Project = row[1].ToString().Trim(),
