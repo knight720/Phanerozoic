@@ -27,7 +27,7 @@ namespace Phanerozoic.Core.Services
             this._coverageLogger = serviceProvider.GetRequiredService<ICoverageLogger>();
         }
 
-        public void Process(ReportEntity reportEntity, CoverageEntity coverageEntity)
+        public void Process(ReportEntity reportEntity, CoreMethodCoverageEntity coverageEntity)
         {
             if (this._fileHelper.Exists(reportEntity.FilePath) == false)
             {

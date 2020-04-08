@@ -29,7 +29,7 @@ namespace Phanerozoic.Core.Services.Notifications.Tests
             //// Assert
             string repository = "Phanerozoic";
             string project = "Phanerozoic.Core";
-            var coverageEntity = new CoverageEntity
+            var coverageEntity = new CoreMethodCoverageEntity
             {
                 Repository = repository,
                 Project = project,

@@ -100,7 +100,7 @@ namespace Phanerozoic.Core.Services.Tests
 
             this._stubFileHelper.ReadAllText(Arg.Any<string>()).Returns(reportJson);
 
-            var coverageEntity = new CoverageEntity
+            var coverageEntity = new CoreMethodCoverageEntity
             {
                 Repository = "Phanerozoic",
             };
@@ -114,7 +114,7 @@ namespace Phanerozoic.Core.Services.Tests
             var target = GetTarget();
             var actual = target.Parser(coverageEntity, reportEntity);
 
-            actual.Count.Should().Be(3);
+            actual.Count.Should().Be(5);
         }
 
         private DotCoverParser GetTarget()

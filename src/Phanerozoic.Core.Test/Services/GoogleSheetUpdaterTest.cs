@@ -4,6 +4,7 @@ using NSubstitute;
 using Phanerozoic.Core.Entities;
 using Phanerozoic.Core.Helpers;
 using Phanerozoic.Core.Services;
+using Phanerozoic.Core.Services.Interface;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -15,6 +16,7 @@ namespace Phanerozoic.Core.Test.Services
         private readonly IFileHelper _stubFileHelper;
         private readonly IConfiguration _stubConfiguration;
         private readonly IGoogleSheetsService _stubGoogleSheetsService;
+        private readonly ICoverageReader _stubCoverageReader;
         private readonly IServiceProvider _stubServiceProvider;
 
         public GoogleSheetUpdaterTest()
@@ -22,18 +24,20 @@ namespace Phanerozoic.Core.Test.Services
             this._stubFileHelper = Substitute.For<IFileHelper>();
             this._stubConfiguration = Substitute.For<IConfiguration>();
             this._stubGoogleSheetsService = Substitute.For<IGoogleSheetsService>();
+            this._stubCoverageReader = Substitute.For<ICoverageReader>();
 
             this._stubServiceProvider = Substitute.For<IServiceProvider>();
             this._stubServiceProvider.GetService<IFileHelper>().Returns(this._stubFileHelper);
             this._stubServiceProvider.GetService<IConfiguration>().Returns(this._stubConfiguration);
             this._stubServiceProvider.GetService<IGoogleSheetsService>().Returns(this._stubGoogleSheetsService);
+            this._stubServiceProvider.GetService<ICoverageReader>().Returns(this._stubCoverageReader);
         }
 
-        [Fact]
+        [Fact(Skip ="取得資料已移至ICoverageReader")]
         public void Test_取得目前的涵蓋率()
         {
             //// Arrange
-            var coverageEntity = new CoverageEntity();
+            var coverageEntity = new CoreMethodCoverageEntity();
             var methodList = new List<MethodEntity>();
 
             this._stubConfiguration["Google.Sheets.SheetsId"].Returns("target Id");

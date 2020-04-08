@@ -1,6 +1,6 @@
 ﻿namespace Phanerozoic.Core.Entities
 {
-    public class CoverageEntity
+    public class CoreMethodCoverageEntity
     {
         public string FilePath { get; set; }
 

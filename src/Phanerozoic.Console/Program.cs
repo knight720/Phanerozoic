@@ -29,7 +29,7 @@ namespace Phanerozoic.Console
             var file = new FileInfo(reportEntity.FilePath);
             var fileName = file.Name;
             fileName = fileName.Substring(0, fileName.LastIndexOf('.'));
-            var coverageEntity = new CoverageEntity
+            var coverageEntity = new CoreMethodCoverageEntity
             {
                 FilePath = Path.Combine(file.DirectoryName, $"{fileName}.csv"),
                 Repository = args[1].Trim(),

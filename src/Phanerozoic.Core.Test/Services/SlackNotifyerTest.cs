@@ -30,7 +30,7 @@ namespace Phanerozoic.Core.Test.Services
         public void Test涵蓋率未下降則不發通知()
         {
             //// Arrange
-            var coverageEntity = new CoverageEntity
+            var coverageEntity = new CoreMethodCoverageEntity
             {
                 Repository = "Phanerozoic"
             };
@@ -71,7 +71,7 @@ namespace Phanerozoic.Core.Test.Services
         public void Test涵蓋率下降的方法發出通知()
         {
             //// Arrange
-            var coverageEntity = new CoverageEntity
+            var coverageEntity = new CoreMethodCoverageEntity
             {
                 Repository = "Phanerozoic"
             };

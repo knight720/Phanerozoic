@@ -5,6 +5,6 @@ namespace Phanerozoic.Core.Services
 {
     public interface IReportParser
     {
-        IList<MethodEntity> Parser(CoverageEntity coverageEntity, ReportEntity reportEntity);
+        IList<MethodEntity> Parser(CoreMethodCoverageEntity coverageEntity, ReportEntity reportEntity);
     }
 }

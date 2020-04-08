@@ -5,6 +5,6 @@ namespace Phanerozoic.Core.Services
 {
     public interface INotifyer
     {
-        void Notify(CoverageEntity coverageEntity, IList<MethodEntity> methodList);
+        void Notify(CoreMethodCoverageEntity coverageEntity, IList<MethodEntity> methodList);
     }
 }
