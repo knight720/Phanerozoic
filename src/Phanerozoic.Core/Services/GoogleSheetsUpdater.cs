@@ -70,7 +70,11 @@ namespace Phanerozoic.Core.Services
                 {
                     this.UpdateCell($"E{coreMethod.RawIndex}", coreMethod.Coverage);
                 }
-                this.UpdateCell($"J{coreMethod.RawIndex}", DateTime.Now.ToString(DateTimeHelper.Format));
+                if (coreMethod.TargetCoverage != coreMethod.LastTargetCoverage)
+                {
+                    this.UpdateCell($"G{coreMethod.RawIndex}", coreMethod.TargetCoverage);
+                }
+                this.UpdateCell($"K{coreMethod.RawIndex}", DateTime.Now.ToString(DateTimeHelper.Format));
             }
             Console.WriteLine($"Update Rate: {updateCount}/{sheetMethodList.Count}");
 
