@@ -10,12 +10,15 @@ namespace Phanerozoic.Core.Entities
         public string Class { get; set; }
         public string Method { get; set; }
         public int Coverage { get; set; }
+        public int LastCoverage { get; private set; }
         public CoverageStatus Status { get; set; }
         public int RawIndex { get; set; }
         public IList<object> RawData { get; set; }
         public string Team { get; set; }
         public string UpdatedDate { get; set; }
         public int TargetCoverage { get; set; }
+        public int LastTargetCoverage { get; private set; }
+        public bool IsPass { get; private set; }
 
         public override string ToString()
         {
@@ -29,19 +32,32 @@ namespace Phanerozoic.Core.Entities
                 throw new ApplicationException($"MethodEntity Not Match! {this.ToString()} vs {method.ToString()}");
             }
 
-            this.Coverage = method.Coverage;
-
-            if (this.TargetCoverage == this.Coverage)
+            if (this.Coverage == method.Coverage)
             {
                 this.Status = CoverageStatus.Unchange;
             }
-            else if (this.TargetCoverage > this.Coverage)
+            else if (this.Coverage > method.Coverage)
             {
                 this.Status = CoverageStatus.Down;
             }
             else
             {
                 this.Status = CoverageStatus.Up;
+            }
+
+            this.LastCoverage = this.Coverage;
+            this.Coverage = method.Coverage;
+
+            this.CheckTargetCoverage();
+        }
+
+        private void CheckTargetCoverage()
+        {
+            this.IsPass = this.Coverage >= this.TargetCoverage;
+
+            if (this.Coverage > this.TargetCoverage)
+            {
+                this.LastTargetCoverage = this.TargetCoverage;
                 this.TargetCoverage = this.Coverage;
             }
         }
