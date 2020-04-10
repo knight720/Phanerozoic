@@ -16,6 +16,18 @@ namespace Phanerozoic.Core.Services
         private readonly ICoverageReader _coverageReader;
         private string _sheetsId;
 
+        private static Dictionary<CoverageStatus, string> SymbolDictionary;
+
+        static GoogleSheetsUpdater()
+        {
+            SymbolDictionary = new Dictionary<CoverageStatus, string>
+            {
+                { CoverageStatus.Unchange, "=" },
+                { CoverageStatus.Up, "▲" },
+                { CoverageStatus.Down, "▼" }
+            };
+        }
+
         public GoogleSheetsUpdater(IServiceProvider serviceProvider, IConfiguration configuration)
         {
             this._configuration = configuration;
@@ -58,21 +70,17 @@ namespace Phanerozoic.Core.Services
 
                 coreMethod.UpdateCoverage(reportMethod);
 
-                var symbolDictionary = new Dictionary<CoverageStatus, string>();
-                symbolDictionary.Add(CoverageStatus.Unchange, "=");
-                symbolDictionary.Add(CoverageStatus.Up, "▲");
-                symbolDictionary.Add(CoverageStatus.Down, "▼");
-                var symbol = symbolDictionary[coreMethod.Status];
+                var symbol = SymbolDictionary[coreMethod.Status];
 
-                Console.WriteLine($"{coreMethod.Project}: {coreMethod.Class}.{coreMethod.Method}: {coreMethod.TargetCoverage} {symbol} {coreMethod.Coverage}");
+                Console.WriteLine($"{coreMethod.Class}.{coreMethod.Method}: {coreMethod.LastCoverage} {symbol} {coreMethod.Coverage}, Target: {coreMethod.TargetCoverage} {(coreMethod.IsPass ? "Pass" : "Fail")}");
 
                 if (coreMethod.Status != CoverageStatus.Unchange || coreMethod.Coverage == 0)
                 {
                     this.UpdateCell($"E{coreMethod.RawIndex}", coreMethod.Coverage);
                 }
-                if (coreMethod.TargetCoverage != coreMethod.LastTargetCoverage)
+                if (coreMethod.TargetCoverage != coreMethod.NewTargetCoverage)
                 {
-                    this.UpdateCell($"G{coreMethod.RawIndex}", coreMethod.TargetCoverage);
+                    this.UpdateCell($"G{coreMethod.RawIndex}", coreMethod.NewTargetCoverage);
                 }
                 this.UpdateCell($"K{coreMethod.RawIndex}", DateTime.Now.ToString(DateTimeHelper.Format));
             }
