@@ -35,28 +35,27 @@ namespace Phanerozoic.Core.Test.Services
                 Repository = "Phanerozoic"
             };
 
-            var methodUnchange = new CoverageEntity
+            var reportMethod = new CoverageEntity
             {
                 Class = "AClass",
                 Method = "AMethod",
-                Status = CoverageStatus.Unchange,
                 Coverage = 23,
             };
-            var methodUp = new CoverageEntity
+            var sheetMethod = new CoverageEntity
             {
                 Class = "AClass",
                 Method = "AMethod",
-                Status = CoverageStatus.Up,
                 Coverage = 23,
             };
+            sheetMethod.UpdateCoverage(reportMethod);
+
             var methodList = new List<CoverageEntity>
             {
-                methodUnchange,
-                methodUp,
+                sheetMethod,
             };
 
             var stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine(methodUnchange.ToString());
+            stringBuilder.AppendLine(sheetMethod.ToString());
             var expectedMessage = stringBuilder.ToString();
 
             //// Act

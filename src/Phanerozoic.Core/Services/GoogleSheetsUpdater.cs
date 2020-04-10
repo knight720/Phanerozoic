@@ -72,7 +72,7 @@ namespace Phanerozoic.Core.Services
 
                 var symbol = SymbolDictionary[coreMethod.Status];
 
-                Console.WriteLine($"{coreMethod.Class}.{coreMethod.Method}: {coreMethod.LastCoverage} {symbol} {coreMethod.Coverage}, Target: {coreMethod.TargetCoverage} {(coreMethod.IsPass ? "Pass" : "Fail")}");
+                Console.WriteLine($"{coreMethod.Class}.{coreMethod.Method}: {coreMethod.LastCoverage} {symbol} {coreMethod.Coverage}, Target: {coreMethod.TargetCoverage}, {(coreMethod.IsPass ? "Pass" : "Fail")}");
 
                 if (coreMethod.Status != CoverageStatus.Unchange || coreMethod.Coverage == 0)
                 {

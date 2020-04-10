@@ -41,15 +41,15 @@ namespace Phanerozoic.Core.Services
             var stringBuilder = new StringBuilder();
             stringBuilder.AppendLine($"Phanerozoic Notify @{DateTime.Now.ToString(DateTimeHelper.Format)}");
 
-            var downCount = methodList.Count(i => i.Status == CoverageStatus.Down);
+            var failCount = methodList.Count(i => i.IsPass == false);
 
-            stringBuilder.AppendLine($"> Repository: {coverageEntity.Repository}, 涵蓋率下降方法數量 {downCount}");
+            stringBuilder.AppendLine($"> Repository: {coverageEntity.Repository}, 涵蓋率未通過數量 {failCount}");
 
             foreach (var method in methodList)
             {
-                if (method.Status == CoverageStatus.Down)
+                if (method.IsPass == false)
                 {
-                    var msg = $"{method.Class}.{method.Method}: {method.TargetCoverage} → {method.Coverage}";
+                    var msg = $"{method.Class}.{method.Method}: {method.Coverage} < {method.TargetCoverage}";
                     stringBuilder.AppendLine(msg);
                 }
             }
@@ -62,25 +62,25 @@ namespace Phanerozoic.Core.Services
 
         private string GetSlackMessage(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
         {
-            var downCount = methodList.Count(i => i.Status == CoverageStatus.Down);
-            if (downCount == 0)
+            var failCount = methodList.Count(i => i.IsPass == false);
+            if (failCount == 0)
             {
                 return null;
             }
 
-            var color = downCount > 0 ? "#FF0000" : "#00FF00";
+            var color = failCount > 0 ? "#FF0000" : "#00FF00";
             var attachment = new Attachment
             {
                 Color = color,
                 AuthorName = $"Repository: {coverageEntity.Repository}",
-                Title = $"Project: {coverageEntity.Project} 涵蓋率下降方法數量: {downCount}",
+                Title = $"Project: {coverageEntity.Project} 涵蓋率未通過數量: {failCount}",
                 Footer = $"Phanerozoic Notifyer",
             };
 
             var stringBuilder = new StringBuilder();
             foreach (var method in methodList)
             {
-                if (method.Status == CoverageStatus.Down)
+                if (method.IsPass == false)
                 {
                     var name = string.Empty;
                     if (method.Class == "*")
@@ -95,7 +95,7 @@ namespace Phanerozoic.Core.Services
                     {
                         name = $"{method.Class}.{method.Method}";
                     }
-                    var msg = $"{name}: {method.TargetCoverage} → {method.Coverage}";
+                    var msg = $"{name}: {method.Coverage} < {method.TargetCoverage}";
                     stringBuilder.AppendLine(msg);
                 }
             }
