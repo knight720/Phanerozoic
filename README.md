@@ -61,6 +61,7 @@ reportgenerator -reports:./output/coverage.opencover.xml -reporttypes:Html -targ
 > [Sending messages using Incoming Webhooks](https://api.slack.com/messaging/webhooks)  
 > [Block Kit Builder](https://api.slack.com/tools/block-kit-builder)  
 > [Message Formatting](https://api.slack.com/docs/messages/builder)  
+> [Formatting text for app surfaces](https://api.slack.com/reference/surfaces/formatting#linking_to_channels_and_users)
 
 ### Email
 > [~~SmtpClient~~](https://docs.microsoft.com/zh-tw/dotnet/api/system.net.mail.smtpclient?view=netcore-3.1)  
