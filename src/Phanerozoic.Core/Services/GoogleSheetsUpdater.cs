@@ -78,7 +78,7 @@ namespace Phanerozoic.Core.Services
                 {
                     this.UpdateCell($"E{coreMethod.RawIndex}", coreMethod.Coverage);
                 }
-                if (coreMethod.TargetCoverage != coreMethod.NewTargetCoverage)
+                if (coreMethod.TargetCoverage != coreMethod.NewTargetCoverage || coreMethod.NewTargetCoverage == 0)
                 {
                     this.UpdateCell($"G{coreMethod.RawIndex}", coreMethod.NewTargetCoverage);
                 }

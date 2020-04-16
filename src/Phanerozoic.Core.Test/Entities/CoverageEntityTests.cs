@@ -30,6 +30,8 @@ namespace Phanerozoic.Core.Entities.Tests
             this.CoverageIsPassShouldBe(50, 40, false);
             this.CoverageIsPassShouldBe(50, 50, true);
             this.CoverageIsPassShouldBe(50, 60, true);
+            this.CoverageIsPassShouldBe(0, 0, true);
+            this.CoverageIsPassShouldBe(100, 100, true);
         }
 
         [Fact(DisplayName = "測試 NewTargetCoverage")]

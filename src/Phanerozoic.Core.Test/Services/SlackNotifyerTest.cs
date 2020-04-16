@@ -79,8 +79,8 @@ namespace Phanerozoic.Core.Test.Services
             {
                 Class = "AClass",
                 Method = "AMethod",
-                Status = CoverageStatus.Down,
                 Coverage = 23,
+                TargetCoverage = 100,
             };
             var methodList = new List<CoverageEntity>
             {

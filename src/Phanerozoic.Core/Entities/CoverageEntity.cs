@@ -18,7 +18,14 @@ namespace Phanerozoic.Core.Entities
         public string UpdatedDate { get; set; }
         public int TargetCoverage { get; set; }
         public int NewTargetCoverage { get; private set; }
-        public bool IsPass { get; private set; }
+
+        public bool IsPass
+        {
+            get
+            {
+                return this.Coverage >= this.TargetCoverage;
+            }
+        }
 
         public override string ToString()
         {
@@ -48,14 +55,12 @@ namespace Phanerozoic.Core.Entities
             this.LastCoverage = this.Coverage;
             this.Coverage = method.Coverage;
 
-            this.CheckTargetCoverage();
+            this.UpdateTargetCoverage();
         }
 
-        private void CheckTargetCoverage()
+        private void UpdateTargetCoverage()
         {
             this.NewTargetCoverage = this.TargetCoverage;
-
-            this.IsPass = this.Coverage >= this.TargetCoverage;
 
             if (this.Coverage > this.TargetCoverage)
             {
