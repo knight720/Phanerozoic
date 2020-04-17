@@ -82,20 +82,7 @@ namespace Phanerozoic.Core.Services
             {
                 if (method.IsPass == false)
                 {
-                    var name = string.Empty;
-                    if (method.Class == "*")
-                    {
-                        name = $"(Project){method.Project}";
-                    }
-                    else if (method.Class.Contains(".*"))
-                    {
-                        name = $"(Namespace){method.Class.Substring(0, method.Class.Length - 2)}";
-                    }
-                    else
-                    {
-                        name = $"{method.Class}.{method.Method}";
-                    }
-                    var msg = $"{name}: {method.Coverage} < {method.TargetCoverage}";
+                    var msg = $"{method.ToString()} < {method.TargetCoverage}";
                     stringBuilder.AppendLine(msg);
                 }
             }
