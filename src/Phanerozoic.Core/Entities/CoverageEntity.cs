@@ -7,6 +7,7 @@ namespace Phanerozoic.Core.Entities
     {
         public string Repository { get; set; }
         public string Project { get; set; }
+        public string Namespace { get; set; }
         public string Class { get; set; }
         public string Method { get; set; }
         public int Coverage { get; set; }
@@ -29,7 +30,19 @@ namespace Phanerozoic.Core.Entities
 
         public override string ToString()
         {
-            return $"{Class}.{Method}:{Coverage}";
+            if (this.Namespace == "*")
+            {
+                return $"Project - {this.Project}: {this.Coverage}";
+            }
+            else if (this.Class == "*")
+            {
+                return $"Namespace - {this.Namespace}: {this.Coverage}";
+            }
+            else if (this.Method == "*")
+            {
+                return $"Class - {this.Namespace}.{this.Class}: {this.Coverage}";
+            }
+            return $"{Namespace}.{Class}.{Method}: {Coverage}";
         }
 
         public void UpdateCoverage(CoverageEntity method)
@@ -75,6 +88,7 @@ namespace Phanerozoic.Core.Entities
                 var target = (CoverageEntity)obj;
                 return (this.Repository == target.Repository &&
                     this.Project == target.Project &&
+                    this.Namespace == target.Namespace &&
                     this.Class == target.Class &&
                     this.Method == target.Method);
             }

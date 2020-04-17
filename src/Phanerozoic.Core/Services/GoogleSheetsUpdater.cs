@@ -60,7 +60,7 @@ namespace Phanerozoic.Core.Services
             var updateCount = 0;
             foreach (var coreMethod in sheetMethodList)
             {
-                var reportMethod = reportMethodList.FirstOrDefault(i => i.Class == coreMethod.Class && i.Method == coreMethod.Method);
+                var reportMethod = reportMethodList.FirstOrDefault(i => i.Equals(coreMethod));
 
                 if (reportMethod == null)
                 {
@@ -76,13 +76,13 @@ namespace Phanerozoic.Core.Services
 
                 if (coreMethod.Status != CoverageStatus.Unchange || coreMethod.Coverage == 0)
                 {
-                    this.UpdateCell($"E{coreMethod.RawIndex}", coreMethod.Coverage);
+                    this.UpdateCell($"F{coreMethod.RawIndex}", coreMethod.Coverage);
                 }
                 if (coreMethod.TargetCoverage != coreMethod.NewTargetCoverage || coreMethod.NewTargetCoverage == 0)
                 {
-                    this.UpdateCell($"G{coreMethod.RawIndex}", coreMethod.NewTargetCoverage);
+                    this.UpdateCell($"H{coreMethod.RawIndex}", coreMethod.NewTargetCoverage);
                 }
-                this.UpdateCell($"K{coreMethod.RawIndex}", DateTime.Now.ToString(DateTimeHelper.Format));
+                this.UpdateCell($"L{coreMethod.RawIndex}", DateTime.Now.ToString(DateTimeHelper.Format));
             }
             Console.WriteLine($"Update Rate: {updateCount}/{sheetMethodList.Count}");
 
