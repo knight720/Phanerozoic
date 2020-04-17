@@ -30,15 +30,15 @@ namespace Phanerozoic.Core.Services.Tests
         [Fact(DisplayName = "每年一 Sheet,每周一 Column")]
         public void Test_Coverage_Log_Write_Cell_Column()
         {
-            this.SheetRangeAssert(new DateTime(2019, 1, 1), "2019!E1");
-            this.SheetRangeAssert(new DateTime(2019, 1, 5), "2019!E1");
-            this.SheetRangeAssert(new DateTime(2019, 1, 6), "2019!F1");
-            this.SheetRangeAssert(new DateTime(2019, 12, 28), "2019!BD1");
-            this.SheetRangeAssert(new DateTime(2019, 12, 29), "2019!BE1");
-            this.SheetRangeAssert(new DateTime(2019, 12, 31), "2019!BE1");
-            this.SheetRangeAssert(new DateTime(2020, 1, 1), "2020!E1");
-            this.SheetRangeAssert(new DateTime(2020, 1, 4), "2020!E1");
-            this.SheetRangeAssert(new DateTime(2020, 1, 5), "2020!F1");
+            this.SheetRangeAssert(new DateTime(2019, 1, 1), "2019!F1");
+            this.SheetRangeAssert(new DateTime(2019, 1, 5), "2019!F1");
+            this.SheetRangeAssert(new DateTime(2019, 1, 6), "2019!G1");
+            this.SheetRangeAssert(new DateTime(2019, 12, 28), "2019!BE1");
+            this.SheetRangeAssert(new DateTime(2019, 12, 29), "2019!BF1");
+            this.SheetRangeAssert(new DateTime(2019, 12, 31), "2019!BF1");
+            this.SheetRangeAssert(new DateTime(2020, 1, 1), "2020!F1");
+            this.SheetRangeAssert(new DateTime(2020, 1, 4), "2020!F1");
+            this.SheetRangeAssert(new DateTime(2020, 1, 5), "2020!G1");
         }
 
         private GoogleSheetsLogger GetTarget()
