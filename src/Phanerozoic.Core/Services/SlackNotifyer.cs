@@ -16,12 +16,16 @@ namespace Phanerozoic.Core.Services
 
         private string _webHookUrl;
 
+        private IDictionary<string, string> _slackGroupIdDictionary;
+
         public SlackNotifyer(IServiceProvider serviceProvider)
         {
             this._slackService = serviceProvider.GetService<ISlackService>();
             var configuration = serviceProvider.GetService<IConfiguration>();
 
             this._webHookUrl = configuration["Slack:WebHookUrl"];
+
+            this._slackGroupIdDictionary = configuration.GetSection("Slack:GroupId").Get<Dictionary<string, string>>();
         }
 
         public void Notify(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
@@ -83,6 +87,7 @@ namespace Phanerozoic.Core.Services
                 if (method.IsPass == false)
                 {
                     var msg = $"{method.ToString()} < {method.TargetCoverage}";
+                    msg += this.TagGroup(method);
                     stringBuilder.AppendLine(msg);
                 }
             }
@@ -96,6 +101,26 @@ namespace Phanerozoic.Core.Services
             };
 
             return slackMessage.ToJson();
+        }
+
+        private string TagGroup(CoverageEntity method)
+        {
+            var message = string.Empty;
+            var teamArray = method.Team.Split(',');
+            var groupList = new List<string>();
+            foreach (var team in teamArray)
+            {
+                var teamName = team.ToLower();
+                var groupId = this._slackGroupIdDictionary.ContainsKey(teamName) ? $"<!subteam^{this._slackGroupIdDictionary[teamName]}>" : team;
+                groupList.Add(groupId);
+            }
+
+            if (groupList.Count > 0)
+            {
+                message = $", {string.Join("", groupList)}";
+            }
+
+            return message;
         }
     }
 }
