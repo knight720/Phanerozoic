@@ -117,7 +117,7 @@ namespace Phanerozoic.Core.Services
 
             if (groupList.Count > 0)
             {
-                message = $", {string.Join("", groupList)}";
+                message = $", {string.Join(" ", groupList)}";
             }
 
             return message;
