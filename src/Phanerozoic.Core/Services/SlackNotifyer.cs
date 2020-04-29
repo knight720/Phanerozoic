@@ -106,12 +106,18 @@ namespace Phanerozoic.Core.Services
         private string TagGroup(CoverageEntity method)
         {
             var message = string.Empty;
+
+            if (string.IsNullOrEmpty(method.Team))
+            {
+                return message;
+            }
+
             var teamArray = method.Team.Split(',');
             var groupList = new List<string>();
             foreach (var team in teamArray)
             {
                 var teamName = team.ToLower();
-                var groupId = this._slackGroupIdDictionary.ContainsKey(teamName) ? $"<!subteam^{this._slackGroupIdDictionary[teamName]}>" : team;
+                var groupId = this._slackGroupIdDictionary.ContainsKey(teamName) ? $"<!subteam^{this._slackGroupIdDictionary[teamName]}>" : $"`{team}`";
                 groupList.Add(groupId);
             }
 

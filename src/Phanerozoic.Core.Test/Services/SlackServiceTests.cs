@@ -21,7 +21,7 @@ namespace Phanerozoic.Core.Services.Tests
         {
             //// Arrange
             string webHookUrl = "";
-            var data = new { text = "<@UserID|cal> bla bla" };
+            var data = new { text = "<@UserID|cal> bla bla `Ada` `Boy`" };
             var json = JsonSerializer.Serialize(data);
 
             //// Act
