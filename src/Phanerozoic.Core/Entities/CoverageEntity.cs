@@ -19,6 +19,7 @@ namespace Phanerozoic.Core.Entities
         public string UpdatedDate { get; set; }
         public int TargetCoverage { get; set; }
         public int NewTargetCoverage { get; private set; }
+        public bool IsUpdate { get; private set; }
 
         public bool IsPass
         {
@@ -51,6 +52,8 @@ namespace Phanerozoic.Core.Entities
             {
                 throw new ApplicationException($"MethodEntity Not Match! {this.ToString()} vs {method.ToString()}");
             }
+
+            this.IsUpdate = true;
 
             if (this.Coverage == method.Coverage)
             {
