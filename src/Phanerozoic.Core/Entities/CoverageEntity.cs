@@ -19,12 +19,14 @@ namespace Phanerozoic.Core.Entities
         public string UpdatedDate { get; set; }
         public int TargetCoverage { get; set; }
         public int NewTargetCoverage { get; private set; }
+        public bool IsUpdate { get; private set; }
 
         public bool IsPass
         {
             get
             {
-                return this.Coverage >= this.TargetCoverage;
+                //// 目標涵蓋率小於0則不檢查
+                return this.TargetCoverage < 0 || this.Coverage >= this.TargetCoverage;
             }
         }
 
@@ -51,6 +53,8 @@ namespace Phanerozoic.Core.Entities
             {
                 throw new ApplicationException($"MethodEntity Not Match! {this.ToString()} vs {method.ToString()}");
             }
+
+            this.IsUpdate = true;
 
             if (this.Coverage == method.Coverage)
             {

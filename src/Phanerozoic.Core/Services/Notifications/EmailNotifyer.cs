@@ -41,15 +41,18 @@ namespace Phanerozoic.Core.Services.Notifications
             Console.WriteLine($"Email From: {this._from}");
             Console.WriteLine($"To: {string.Join(',', this._toList)}");
 
-            var subject = $"Phanerozic Notify - {coverageEntity.Repository} - {coverageEntity.Project}";
-
             var projectMethod = methodList.Where(i => i.Repository == coverageEntity.Repository && i.Project == coverageEntity.Project).ToList();
             var downMethod = projectMethod.Where(i => i.Status == CoverageStatus.Down).ToList();
+            var updateMethodCount = projectMethod.Count(i => i.IsUpdate);
+
+            var subject = $"Phanerozic - {downMethod.Count}/{updateMethodCount}/{projectMethod.Count} - {coverageEntity.Repository} - {coverageEntity.Project}";
 
             var stringBuilder = new StringBuilder();
             stringBuilder.AppendLine($"Repository: {coverageEntity.Repository}");
             stringBuilder.AppendLine($"Project: {coverageEntity.Project}");
-            stringBuilder.AppendLine($"Coverage Down Rate: {downMethod.Count}/{projectMethod.Count}");
+            stringBuilder.AppendLine($"Project Method Count: {projectMethod.Count}");
+            stringBuilder.AppendLine($"Update Method Count: {updateMethodCount}");
+            stringBuilder.AppendLine($"Coverage Down Method Count: {downMethod.Count}");
             downMethod.ForEach(i => stringBuilder.AppendLine($"{i.Class}.{i.Method}: {i.TargetCoverage} → {i.Coverage}"));
 
             this._emailService.Send(this._from, this._toList, subject, stringBuilder.ToString());

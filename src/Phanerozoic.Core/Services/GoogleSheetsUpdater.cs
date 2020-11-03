@@ -78,7 +78,8 @@ namespace Phanerozoic.Core.Services
                 {
                     this.UpdateCell($"F{coreMethod.RawIndex}", coreMethod.Coverage);
                 }
-                if (coreMethod.TargetCoverage != coreMethod.NewTargetCoverage || coreMethod.NewTargetCoverage == 0)
+                //// 目標涵蓋率小於0則不更新
+                if (coreMethod.TargetCoverage > -1 && (coreMethod.TargetCoverage != coreMethod.NewTargetCoverage || coreMethod.NewTargetCoverage == 0))
                 {
                     this.UpdateCell($"H{coreMethod.RawIndex}", coreMethod.NewTargetCoverage);
                 }

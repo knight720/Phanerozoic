@@ -34,6 +34,13 @@ namespace Phanerozoic.Core.Services.Googles
                 foreach (var row in values)
                 {
                     index++;
+
+                    if (row.Count < 9)
+                    {
+                        Console.WriteLine($"Pass Row:{index}, Value: {row.EnumerableToString()}");
+                        continue;
+                    }
+
                     var methodEntity = new CoverageEntity
                     {
                         Repository = row[0].ToString().Trim(),

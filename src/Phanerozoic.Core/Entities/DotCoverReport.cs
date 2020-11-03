@@ -42,5 +42,7 @@ namespace Phanerozoic.Core.Entities
         Event,
         EventAdder,
         EventRemover,
+        LocalFunction,
+        UnresolvedStateMachineMethod,
     };
 }
