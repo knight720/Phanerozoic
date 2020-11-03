@@ -25,7 +25,8 @@ namespace Phanerozoic.Core.Entities
         {
             get
             {
-                return this.Coverage >= this.TargetCoverage;
+                //// 目標涵蓋率小於0則不檢查
+                return this.TargetCoverage < 0 || this.Coverage >= this.TargetCoverage;
             }
         }
 
