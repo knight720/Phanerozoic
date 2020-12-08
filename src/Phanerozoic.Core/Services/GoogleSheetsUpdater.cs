@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Phanerozoic.Core.Entities;
@@ -15,6 +16,7 @@ namespace Phanerozoic.Core.Services
         private readonly IGoogleSheetsService _googleSheetsService;
         private readonly ICoverageReader _coverageReader;
         private string _sheetsId;
+        private int _interval;
 
         private static Dictionary<CoverageStatus, string> SymbolDictionary;
 
@@ -35,6 +37,7 @@ namespace Phanerozoic.Core.Services
             this._coverageReader = serviceProvider.GetService<ICoverageReader>();
 
             this._sheetsId = this._configuration["Google:Sheets:Id"];
+            this._interval = int.Parse(this._configuration["Google:Sheets:Interval"]);
 
             Console.WriteLine($"Target Sheets ID: {this._sheetsId}");
         }
@@ -115,6 +118,7 @@ namespace Phanerozoic.Core.Services
                 };
 
             this._googleSheetsService.SetValue(this._sheetsId, range, updateValues);
+            Thread.Sleep(this._interval);
         }
     }
 }
