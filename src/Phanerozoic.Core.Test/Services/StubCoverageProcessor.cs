@@ -1,5 +1,6 @@
 ﻿using System;
 using Phanerozoic.Core.Services;
+using Phanerozoic.Core.Services.Interfaces;
 
 namespace Phanerozoic.Core.Test.Services
 {

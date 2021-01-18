@@ -1,6 +1,6 @@
 ﻿using Phanerozoic.Core.Entities;
 
-namespace Phanerozoic.Core.Services
+namespace Phanerozoic.Core.Services.Interfaces
 {
     public interface ICoverageProcessor
     {

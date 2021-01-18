@@ -7,6 +7,7 @@ using NSubstitute;
 using Phanerozoic.Core.Entities;
 using Phanerozoic.Core.Helpers;
 using Phanerozoic.Core.Services;
+using Phanerozoic.Core.Services.Interfaces;
 using Xunit;
 
 namespace Phanerozoic.Core.Test.Services

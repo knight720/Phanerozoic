@@ -4,7 +4,7 @@ using NSubstitute;
 using Phanerozoic.Core.Entities;
 using Phanerozoic.Core.Helpers;
 using Phanerozoic.Core.Services;
-using Phanerozoic.Core.Services.Interface;
+using Phanerozoic.Core.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using Xunit;

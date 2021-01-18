@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Phanerozoic.Core.Services
+namespace Phanerozoic.Core.Services.Interfaces
 {
     public interface IGoogleSheetsService
     {

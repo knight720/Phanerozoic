@@ -5,8 +5,9 @@ using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Phanerozoic.Core.Entities;
 using Phanerozoic.Core.Helpers;
+using Phanerozoic.Core.Services.Interfaces;
 
-namespace Phanerozoic.Core.Services
+namespace Phanerozoic.Core.Services.Files
 {
     public class FileUpdater : ICoverageUpdater
     {
@@ -14,7 +15,7 @@ namespace Phanerozoic.Core.Services
 
         public FileUpdater(IServiceProvider serviceProvider)
         {
-            this._fileHelper = serviceProvider.GetService<IFileHelper>();
+            _fileHelper = serviceProvider.GetService<IFileHelper>();
         }
 
         public IList<CoverageEntity> Update(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
@@ -34,7 +35,7 @@ namespace Phanerozoic.Core.Services
 
             string contents = stringBuilder.ToString();
 
-            this._fileHelper.WriteAllText(coverageEntity.FilePath, contents);
+            _fileHelper.WriteAllText(coverageEntity.FilePath, contents);
 
             return methodList;
         }

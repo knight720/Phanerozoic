@@ -5,14 +5,14 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Phanerozoic.Core.Entities;
-using Phanerozoic.Core.Services.Interface;
+using Phanerozoic.Core.Services.Interfaces;
 
 namespace Phanerozoic.Core.Services.Notifications
 {
     /// <summary>
     ///
     /// </summary>
-    /// <seealso cref="Phanerozoic.Core.Services.INotifyer" />
+    /// <seealso cref="Interfaces.INotifyer" />
     public class EmailNotifyer : INotifyer
     {
         private readonly IEmailService _emailService;

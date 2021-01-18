@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Phanerozoic.Core.Entities;
-using Phanerozoic.Core.Services.Interface;
+using Phanerozoic.Core.Services.Interfaces;
 using Xunit;
 
 namespace Phanerozoic.Core.Services.Notifications.Tests
