@@ -1,11 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Phanerozoic.Core.Services.Interfaces;
-using System;
+﻿using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Phanerozoic.Core.Services.Interfaces;
 
-namespace Phanerozoic.Core.Services
+namespace Phanerozoic.Core.Services.Slacks
 {
     public class SlackService : ISlackService
     {
@@ -13,12 +13,12 @@ namespace Phanerozoic.Core.Services
 
         public SlackService(IServiceProvider serviceProvider)
         {
-            this._httpClientFactory = serviceProvider.GetService<IHttpClientFactory>();
+            _httpClientFactory = serviceProvider.GetService<IHttpClientFactory>();
         }
 
         public async Task SendAsync(string webHookUrl, string slackMessageJson)
         {
-            var httpClient = this._httpClientFactory.CreateClient();
+            var httpClient = _httpClientFactory.CreateClient();
 
             var content = new StringContent(slackMessageJson, Encoding.UTF8, "application/json");
 

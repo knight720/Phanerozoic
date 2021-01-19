@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Phanerozoic.Core.Entities;
+using Phanerozoic.Core.Services.Emails;
 using Phanerozoic.Core.Services.Interfaces;
 using Xunit;
 

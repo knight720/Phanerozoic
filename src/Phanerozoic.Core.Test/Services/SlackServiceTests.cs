@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
+using Phanerozoic.Core.Services.Slacks;
 using Xunit;
 
 namespace Phanerozoic.Core.Services.Tests

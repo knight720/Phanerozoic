@@ -9,7 +9,7 @@ using Phanerozoic.Core.Entities;
 using Phanerozoic.Core.Helpers;
 using Phanerozoic.Core.Services.Interfaces;
 
-namespace Phanerozoic.Core.Services
+namespace Phanerozoic.Core.Services.Slacks
 {
     public class SlackNotifyer : INotifyer
     {
@@ -21,24 +21,24 @@ namespace Phanerozoic.Core.Services
 
         public SlackNotifyer(IServiceProvider serviceProvider)
         {
-            this._slackService = serviceProvider.GetService<ISlackService>();
+            _slackService = serviceProvider.GetService<ISlackService>();
             var configuration = serviceProvider.GetService<IConfiguration>();
 
-            this._webHookUrl = configuration["Slack:WebHookUrl"];
+            _webHookUrl = configuration["Slack:WebHookUrl"];
 
-            this._slackGroupIdDictionary = configuration.GetSection("Slack:GroupId").Get<Dictionary<string, string>>();
+            _slackGroupIdDictionary = configuration.GetSection("Slack:GroupId").Get<Dictionary<string, string>>();
         }
 
         public void Notify(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
         {
-            var slackMessageJson = this.GetSlackMessage(coverageEntity, methodList);
+            var slackMessageJson = GetSlackMessage(coverageEntity, methodList);
 
             if (string.IsNullOrWhiteSpace(slackMessageJson))
             {
                 return;
             }
 
-            this._slackService.SendAsync(this._webHookUrl, slackMessageJson);
+            _slackService.SendAsync(_webHookUrl, slackMessageJson);
         }
 
         private string GetMessage(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
@@ -88,7 +88,7 @@ namespace Phanerozoic.Core.Services
                 if (method.IsPass == false)
                 {
                     var msg = $"{method.ToString()} < {method.TargetCoverage}";
-                    msg += this.TagGroup(method);
+                    msg += TagGroup(method);
                     stringBuilder.AppendLine(msg);
                 }
             }
@@ -118,7 +118,7 @@ namespace Phanerozoic.Core.Services
             foreach (var team in teamArray)
             {
                 var teamName = team.ToLower();
-                var groupId = this._slackGroupIdDictionary.ContainsKey(teamName) ? $"<!subteam^{this._slackGroupIdDictionary[teamName]}>" : $"`{team}`";
+                var groupId = _slackGroupIdDictionary.ContainsKey(teamName) ? $"<!subteam^{_slackGroupIdDictionary[teamName]}>" : $"`{team}`";
                 groupList.Add(groupId);
             }
 

@@ -4,7 +4,9 @@ using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Phanerozoic.Core.Entities;
 using Phanerozoic.Core.Helpers;
-using Phanerozoic.Core.Services.Notifications;
+using Phanerozoic.Core.Services.Emails;
+using Phanerozoic.Core.Services.Interfaces;
+using Phanerozoic.Core.Services.Slacks;
 
 namespace Phanerozoic.Core.Services
 {

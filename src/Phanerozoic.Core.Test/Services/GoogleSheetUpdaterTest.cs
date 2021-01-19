@@ -1,12 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Phanerozoic.Core.Entities;
 using Phanerozoic.Core.Helpers;
-using Phanerozoic.Core.Services;
+using Phanerozoic.Core.Services.Googles;
 using Phanerozoic.Core.Services.Interfaces;
-using System;
-using System.Collections.Generic;
 using Xunit;
 
 namespace Phanerozoic.Core.Test.Services
@@ -33,7 +33,7 @@ namespace Phanerozoic.Core.Test.Services
             this._stubServiceProvider.GetService<ICoverageReader>().Returns(this._stubCoverageReader);
         }
 
-        [Fact(Skip ="取得資料已移至ICoverageReader")]
+        [Fact(Skip = "取得資料已移至ICoverageReader")]
         public void Test_取得目前的涵蓋率()
         {
             //// Arrange
