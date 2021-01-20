@@ -5,6 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Phanerozoic.Core.Test</_Parameter1>
+    </AssemblyAttribute>
     <PackageReference Include="Google.Apis.Sheets.v4" Version="1.42.0.1791" />
     <PackageReference Include="MailKit" Version="2.5.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.0" />
