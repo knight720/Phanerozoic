@@ -15,6 +15,7 @@ namespace Phanerozoic.Core.Services
         private readonly IServiceProvider _serviceProvider;
         private readonly IFileHelper _fileHelper;
         private readonly IReportParser _reportParser;
+        private readonly ICoverageCollect _coverageCollect;
         private readonly ICoverageUpdater _coverageUpdater;
         private readonly INotifyer _slackNotifyer;
         private readonly INotifyer _emailNotifyer;
@@ -25,6 +26,7 @@ namespace Phanerozoic.Core.Services
             this._serviceProvider = serviceProvider;
             this._fileHelper = serviceProvider.GetRequiredService<IFileHelper>();
             this._reportParser = serviceProvider.GetRequiredService<IReportParser>();
+            this._coverageCollect = serviceProvider.GetRequiredService<ICoverageCollect>();
             this._coverageUpdater = serviceProvider.GetRequiredService<ICoverageUpdater>();
             this._coverageLogger = serviceProvider.GetRequiredService<ICoverageLogger>();
         }
@@ -53,6 +55,39 @@ namespace Phanerozoic.Core.Services
             //// Log
             Console.WriteLine("* Log");
             this._coverageLogger.Log(updateMethodList);
+        }
+
+        /// <summary>
+        /// 讀取涵蓋率
+        /// </summary>
+        /// <param name="reportEntity">The report entity.</param>
+        /// <param name="coverageEntity">The coverage entity.</param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void ProcessParser(ReportEntity reportEntity, CoreMethodCoverageEntity coverageEntity)
+        {
+            if (this._fileHelper.Exists(reportEntity.FilePath) == false)
+            {
+                Console.WriteLine($"File Not Found: {reportEntity.FilePath}");
+                throw new FileNotFoundException("File Not Found!", reportEntity.FilePath);
+            }
+
+            //// Parser
+            Console.WriteLine("* Parser");
+            var methodList = this._reportParser.Parser(coverageEntity, reportEntity);
+
+            //// Log
+            this._coverageCollect.Collect(coverageEntity, methodList);
+        }
+
+        /// <summary>
+        /// 更新涵蓋率及通知
+        /// </summary>
+        /// <param name="reportEntity">The report entity.</param>
+        /// <param name="coverageEntity">The coverage entity.</param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void ProcessUpdateAndNotify(ReportEntity reportEntity, CoreMethodCoverageEntity coverageEntity)
+        {
+            throw new NotImplementedException();
         }
 
         protected virtual INotifyer GetSlackNotifyer()
