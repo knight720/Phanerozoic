@@ -5,6 +5,7 @@ using Phanerozoic.Core.Entities;
 using Phanerozoic.Core.Helpers;
 using Phanerozoic.Core.Services;
 using Phanerozoic.Core.Services.Emails;
+using Phanerozoic.Core.Services.Files;
 using Phanerozoic.Core.Services.Googles;
 using Phanerozoic.Core.Services.Interfaces;
 using Phanerozoic.Core.Services.Slacks;
@@ -48,6 +49,7 @@ namespace Phanerozoic.Console
             serviceCollection.AddScoped<ICoverageProcessor, CoverageProcessor>();
             serviceCollection.AddScoped<IFileHelper, FileHelper>();
             serviceCollection.AddScoped<IReportParser, DotCoverParser>();
+            serviceCollection.AddScoped<ICoverageCollect, FileCollect>();
             serviceCollection.AddScoped<ICoverageUpdater, GoogleSheetsUpdater>();
             serviceCollection.AddScoped<ICoverageReader, GoogleSheetsReader>();
             serviceCollection.AddScoped<IGoogleSheetsService, GoogleSheetsService>();
