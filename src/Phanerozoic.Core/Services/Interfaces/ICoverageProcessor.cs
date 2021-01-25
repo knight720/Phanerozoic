@@ -6,7 +6,7 @@ namespace Phanerozoic.Core.Services.Interfaces
     {
         void Process(ReportEntity reportEntity, CoreMethodCoverageEntity coverageEntity);
 
-        void ProcessParser(ReportEntity reportEntity, CoreMethodCoverageEntity coverageEntity);
+        void ProcessParserAndCollect(ReportEntity reportEntity, CoreMethodCoverageEntity coverageEntity);
 
         void ProcessUpdateAndNotify(ReportEntity reportEntity, CoreMethodCoverageEntity coverageEntity);
     }

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Phanerozoic.Core.Entities;
@@ -18,7 +19,7 @@ namespace Phanerozoic.Console
         {
             // create service collection
             var serviceCollection = new ServiceCollection();
-            ConfigureServices(serviceCollection);
+            var configurateion = ConfigureServices(serviceCollection, args);
 
             // create service provider
             var serviceProvider = serviceCollection.BuildServiceProvider();
@@ -39,12 +40,26 @@ namespace Phanerozoic.Console
             };
 
             var coverageProcessor = serviceProvider.GetService<ICoverageProcessor>();
-            coverageProcessor.Process(reportEntity, coverageEntity);
+
+            var mode = ModeType.Full;
+            mode = configurateion["Mode"].ToEnum<ModeType>();
+
+            switch (mode)
+            {
+                case ModeType.Parse:
+                    coverageProcessor.ProcessParserAndCollect(reportEntity, coverageEntity);
+                    break;
+
+                case ModeType.Full:
+                default:
+                    coverageProcessor.Process(reportEntity, coverageEntity);
+                    break;
+            }
 
             serviceProvider.Dispose();
         }
 
-        public static void ConfigureServices(IServiceCollection serviceCollection)
+        public static IConfiguration ConfigureServices(IServiceCollection serviceCollection, string[] args)
         {
             serviceCollection.AddScoped<ICoverageProcessor, CoverageProcessor>();
             serviceCollection.AddScoped<IFileHelper, FileHelper>();
@@ -61,13 +76,21 @@ namespace Phanerozoic.Console
             serviceCollection.AddScoped<IEmailService, GmailService>();
             serviceCollection.AddHttpClient();
 
+            var switchMappings = new Dictionary<string, string>()
+            {
+                { "--m", "Mode" },
+            };
+
             var configurationRoot = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("AppSettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile("AppSettings.json.user", true, true)
+                .AddCommandLine(args, switchMappings)
                 .Build();
 
             serviceCollection.AddSingleton<IConfiguration>(configurationRoot);
+
+            return configurationRoot;
         }
     }
 }

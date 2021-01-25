@@ -63,7 +63,7 @@ namespace Phanerozoic.Core.Services
         /// <param name="reportEntity">The report entity.</param>
         /// <param name="coverageEntity">The coverage entity.</param>
         /// <exception cref="NotImplementedException"></exception>
-        public void ProcessParser(ReportEntity reportEntity, CoreMethodCoverageEntity coverageEntity)
+        public void ProcessParserAndCollect(ReportEntity reportEntity, CoreMethodCoverageEntity coverageEntity)
         {
             if (this._fileHelper.Exists(reportEntity.FilePath) == false)
             {

@@ -2,7 +2,7 @@
   "profiles": {
     "Phanerozoic.Console": {
       "commandName": "Project",
-      "commandLineArgs": "\"..\\..\\..\\..\\..\\extras\\output\\dotCover.json\" Phanerozoic Phanerozoic.Core"
+      "commandLineArgs": "\"..\\..\\..\\..\\..\\extras\\output\\dotCover.json\" Phanerozoic Phanerozoic.Core --m Parse"
     }
   }
 }
