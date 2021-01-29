@@ -21,6 +21,7 @@ namespace Phanerozoic.Core.Test.Services
         private readonly INotifyer _stubNotifyer;
         private readonly INotifyer _stubEmailNotifyer;
         private readonly ICoverageLogger _stubCoverageLogger;
+        private readonly ICoverageCollect _stubCoverageCollect;
 
         public CoverageProcessorTest()
         {
@@ -30,6 +31,7 @@ namespace Phanerozoic.Core.Test.Services
             this._stubNotifyer = Substitute.For<INotifyer>();
             this._stubEmailNotifyer = Substitute.For<INotifyer>();
             this._stubCoverageLogger = Substitute.For<ICoverageLogger>();
+            this._stubCoverageCollect = Substitute.For<ICoverageCollect>();
 
             this._stubServiceProvider = Substitute.For<IServiceProvider>();
             this._stubServiceProvider.GetService<IFileHelper>().Returns(this._stubFileHelper);
@@ -41,6 +43,7 @@ namespace Phanerozoic.Core.Test.Services
             //this._stubServiceProvider.GetService<INotifyer>().Returns(new EmailNotifyer(this._stubServiceProvider));
             this._stubServiceProvider.GetService<IEnumerable<INotifyer>>().Returns(new List<INotifyer> { this._stubNotifyer, this._stubEmailNotifyer });
             this._stubServiceProvider.GetService<ICoverageLogger>().Returns(this._stubCoverageLogger);
+            this._stubServiceProvider.GetService<ICoverageCollect>().Returns(this._stubCoverageCollect);
 
             //this._stubServiceProvider.GetServices<INotifyer>();
             //this._stubServiceProvider.GetServices<INotifyer>().Returns(new List<INotifyer> { this._stubNotifyer, this._stubEmailNotifyer });
