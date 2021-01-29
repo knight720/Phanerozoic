@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Phanerozoic.Core.Entities
 {
@@ -11,16 +12,35 @@ namespace Phanerozoic.Core.Entities
         public string Class { get; set; }
         public string Method { get; set; }
         public int Coverage { get; set; }
+
+        [JsonIgnore]
         public int LastCoverage { get; private set; }
+
+        [JsonIgnore]
         public CoverageStatus Status { get; set; }
+
+        [JsonIgnore]
         public int RawIndex { get; set; }
+
+        [JsonIgnore]
         public IList<object> RawData { get; set; }
+
+        [JsonIgnore]
         public string Team { get; set; }
+
+        [JsonIgnore]
         public string UpdatedDate { get; set; }
+
+        [JsonIgnore]
         public int TargetCoverage { get; set; }
+
+        [JsonIgnore]
         public int NewTargetCoverage { get; private set; }
+
+        [JsonIgnore]
         public bool IsUpdate { get; private set; }
 
+        [JsonIgnore]
         public bool IsPass
         {
             get

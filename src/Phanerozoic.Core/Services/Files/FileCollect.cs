@@ -27,7 +27,7 @@ namespace Phanerozoic.Core.Services.Files
         /// <returns></returns>
         public string Collect(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
         {
-            var fileName = GetFileName(coverageEntity.Project);
+            var fileName = GetFileName(coverageEntity);
 
             //// Load File
             var fileMethodList = LoadCoverage(fileName);
@@ -92,9 +92,9 @@ namespace Phanerozoic.Core.Services.Files
             File.WriteAllText(fileName, data);
         }
 
-        private string GetFileName(string projectName)
+        private string GetFileName(CoreMethodCoverageEntity coreMethodCoverage)
         {
-            return $"{projectName}_{this._dateTimeHelper.Now.ToString(Format)}.json";
+            return Path.Combine(coreMethodCoverage.OutputPath, $"{coreMethodCoverage.Project}_{this._dateTimeHelper.Now.ToString(Format)}.json");
         }
     }
 }
