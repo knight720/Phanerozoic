@@ -35,7 +35,7 @@ namespace Phanerozoic.Core.Services.Files
 
             string contents = stringBuilder.ToString();
 
-            _fileHelper.WriteAllText(coverageEntity.FilePath, contents);
+            _fileHelper.WriteAllText(coverageEntity.CoverageFile, contents);
 
             return methodList;
         }

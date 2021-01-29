@@ -57,7 +57,7 @@ namespace Phanerozoic.Core.Test.Services
             };
             var coverageEntity = new CoreMethodCoverageEntity
             {
-                FilePath = "coverage.csv"
+                CoverageFileName = "coverage.csv"
             };
 
             var target = GetTarget();
@@ -84,7 +84,7 @@ namespace Phanerozoic.Core.Test.Services
             };
             var coverageEntity = new CoreMethodCoverageEntity
             {
-                FilePath = "coverage.csv"
+                CoverageFileName = "coverage.csv"
             };
 
             var target = GetTarget();

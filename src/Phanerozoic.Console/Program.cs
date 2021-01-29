@@ -34,7 +34,8 @@ namespace Phanerozoic.Console
             fileName = fileName.Substring(0, fileName.LastIndexOf('.'));
             var coverageEntity = new CoreMethodCoverageEntity
             {
-                FilePath = Path.Combine(file.DirectoryName, $"{fileName}.csv"),
+                CoverageFileName = $"{fileName}.csv",
+                OutputPath = file.DirectoryName,
                 Repository = args[1].Trim(),
                 Project = args[2].Trim(),
             };

@@ -30,7 +30,7 @@ namespace Phanerozoic.Core.Test.Services
             var methodList = new List<CoverageEntity>();
             var coverageEntity = new CoreMethodCoverageEntity
             {
-                FilePath = "a.txt"
+                CoverageFileName = "a.txt"
             };
 
             //// Act
