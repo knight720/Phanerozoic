@@ -76,6 +76,7 @@ namespace Phanerozoic.Core.Services
             var methodList = this._reportParser.Parser(coverageEntity, reportEntity);
 
             //// Log
+            Console.WriteLine("* Collect");
             this._coverageCollect.Collect(coverageEntity, methodList);
         }
 
@@ -85,9 +86,24 @@ namespace Phanerozoic.Core.Services
         /// <param name="reportEntity">The report entity.</param>
         /// <param name="coverageEntity">The coverage entity.</param>
         /// <exception cref="NotImplementedException"></exception>
-        public void ProcessUpdateAndNotify(ReportEntity reportEntity, CoreMethodCoverageEntity coverageEntity)
+        public void ProcessUpdateAndNotify(CoreMethodCoverageEntity coverageEntity)
         {
-            throw new NotImplementedException();
+            //// Load Coverage From Collect
+            Console.WriteLine("* Collect");
+            var methodList = this._coverageCollect.LoadCollect(coverageEntity);
+
+            //// Update
+            Console.WriteLine("* Update");
+            var updateMethodList = this._coverageUpdater.Update(coverageEntity, methodList);
+
+            //// Notify
+            Console.WriteLine("* Notify");
+            this.GetSlackNotifyer().Notify(coverageEntity, updateMethodList);
+            this.GetEmailNotifyer().Notify(coverageEntity, updateMethodList);
+
+            //// Log
+            Console.WriteLine("* Log");
+            this._coverageLogger.Log(updateMethodList);
         }
 
         protected virtual INotifyer GetSlackNotifyer()

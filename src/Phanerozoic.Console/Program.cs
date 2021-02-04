@@ -45,14 +45,22 @@ namespace Phanerozoic.Console
             var mode = ModeType.Full;
             mode = configurateion["Mode"].ToEnum<ModeType>();
 
+            System.Console.WriteLine($"Mode: {mode.ToString()}");
             switch (mode)
             {
                 case ModeType.Parse:
+                    System.Console.WriteLine("Parser And Collect");
                     coverageProcessor.ProcessParserAndCollect(reportEntity, coverageEntity);
+                    break;
+
+                case ModeType.Update:
+                    System.Console.WriteLine("Load From Collect. Update And Nofity");
+                    coverageProcessor.ProcessUpdateAndNotify(coverageEntity);
                     break;
 
                 case ModeType.Full:
                 default:
+                    System.Console.WriteLine("Parser, Update And Notify");
                     coverageProcessor.Process(reportEntity, coverageEntity);
                     break;
             }

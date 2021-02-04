@@ -27,18 +27,32 @@ namespace Phanerozoic.Core.Services.Files
         /// <returns></returns>
         public string Collect(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
         {
-            var fileName = GetFileName(coverageEntity);
-
-            //// Load File
-            var fileMethodList = LoadCoverage(fileName);
+            var fileMethodList = LoadCollect(coverageEntity);
 
             //// Update Coverage
             MergeCoverage(methodList, ref fileMethodList);
+
+            var fileName = GetFileName(coverageEntity);
 
             //// Save File
             SaveCoverage(fileName, fileMethodList);
 
             return fileName;
+        }
+
+        /// <summary>
+        /// Loads the collect.
+        /// </summary>
+        /// <param name="coverageEntity">The coverage entity.</param>
+        /// <returns></returns>
+        public IList<CoverageEntity> LoadCollect(CoreMethodCoverageEntity coverageEntity)
+        {
+            var fileName = GetFileName(coverageEntity);
+
+            //// Load File
+            var fileMethodList = LoadCoverage(fileName);
+
+            return fileMethodList;
         }
 
         /// <summary>
@@ -65,18 +79,23 @@ namespace Phanerozoic.Core.Services.Files
         internal void MergeCoverage(IList<CoverageEntity> methodList, ref IList<CoverageEntity> fileMethodList)
         {
             var newMethodList = new List<CoverageEntity>();
+            var updateCount = 0;
+            var addCount = 0;
             foreach (var source in methodList)
             {
                 var method = fileMethodList.FirstOrDefault(i => i.Equals(source));
                 if (method != null)
                 {
+                    updateCount++;
                     method.Coverage = Math.Max(source.Coverage, method.Coverage);
                 }
                 else
                 {
+                    addCount++;
                     newMethodList.Add(source);
                 }
             }
+            Console.WriteLine($"FileCollect - Total:{methodList.Count}, Update:{updateCount}, Add:{addCount}");
 
             fileMethodList = fileMethodList.Concat(newMethodList).ToList();
         }

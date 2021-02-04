@@ -12,5 +12,12 @@ namespace Phanerozoic.Core.Services.Interfaces
         /// <param name="methodList">The method list.</param>
         /// <returns></returns>
         string Collect(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> methodList);
+
+        /// <summary>
+        /// Loads the collect.
+        /// </summary>
+        /// <param name="coverageEntity">The coverage entity.</param>
+        /// <returns></returns>
+        IList<CoverageEntity> LoadCollect(CoreMethodCoverageEntity coverageEntity);
     }
 }
