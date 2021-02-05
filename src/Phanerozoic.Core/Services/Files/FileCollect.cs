@@ -116,7 +116,7 @@ namespace Phanerozoic.Core.Services.Files
 
         private string GetFileName(CoreMethodCoverageEntity coreMethodCoverage)
         {
-            return Path.Combine(coreMethodCoverage.OutputPath, $"{coreMethodCoverage.Project}_{this._dateTimeHelper.Now.ToString(Format)}.json");
+            return Path.Combine(coreMethodCoverage.OutputPath, $"{coreMethodCoverage.Repository}_{this._dateTimeHelper.Now.ToString(Format)}.json");
         }
     }
 }
