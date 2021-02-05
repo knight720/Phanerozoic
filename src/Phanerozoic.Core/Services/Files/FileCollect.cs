@@ -86,8 +86,11 @@ namespace Phanerozoic.Core.Services.Files
                 var method = fileMethodList.FirstOrDefault(i => i.Equals(source));
                 if (method != null)
                 {
-                    updateCount++;
-                    method.Coverage = Math.Max(source.Coverage, method.Coverage);
+                    if (source.Coverage > method.Coverage)
+                    {
+                        updateCount++;
+                        method.Coverage = source.Coverage;
+                    }
                 }
                 else
                 {
