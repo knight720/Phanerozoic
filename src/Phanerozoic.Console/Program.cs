@@ -27,7 +27,7 @@ namespace Phanerozoic.Console
 
             var reportEntity = new ReportEntity
             {
-                FilePath = configuration[Arguments.Report].Trim(),
+                FilePath = configuration[Arguments.Report]?.Trim(),
             };
 
             var file = new FileInfo(reportEntity.FilePath);
@@ -37,14 +37,13 @@ namespace Phanerozoic.Console
             {
                 CoverageFileName = $"{fileName}.csv",
                 OutputPath = file.DirectoryName,
-                Repository = configuration[Arguments.Repository].Trim(),
-                Project = configuration[Arguments.Project].Trim(),
+                Repository = configuration[Arguments.Repository]?.Trim(),
+                Project = configuration[Arguments.Project]?.Trim(),
             };
 
             var coverageProcessor = serviceProvider.GetService<ICoverageProcessor>();
 
-            var mode = ModeType.Full;
-            mode = configuration[Arguments.Mode].ToEnum<ModeType>();
+            var mode = string.IsNullOrWhiteSpace(configuration[Arguments.Mode]) == false ? configuration[Arguments.Mode].ToEnum<ModeType>() : ModeType.Full;
 
             System.Console.WriteLine($"Mode: {mode.ToString()}");
             switch (mode)
