@@ -101,10 +101,15 @@ namespace Phanerozoic.Core.Services.Googles
         /// <returns></returns>
         private IList<CoverageEntity> FilterMethod(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
         {
-            return methodList.Where(i =>
-                            i.Repository == coverageEntity.Repository &&
-                            i.Project == coverageEntity.Project
-                            ).ToList();
+            var query = methodList.AsQueryable();
+            query = query.Where(i => i.Repository == coverageEntity.Repository);
+
+            if (string.IsNullOrWhiteSpace(coverageEntity.Project))
+            {
+                query = query.Where(i => i.Project == coverageEntity.Project);
+            }
+
+            return query.ToList();
         }
 
         private void UpdateCell(string range, object value)
