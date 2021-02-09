@@ -90,6 +90,7 @@ namespace Phanerozoic.Core.Services.Files
                 {
                     if (source.Coverage > method.Coverage)
                     {
+                        Console.WriteLine($"{method.ToString()} to {source.Coverage}");
                         updateCount++;
                         method.Coverage = source.Coverage;
                     }

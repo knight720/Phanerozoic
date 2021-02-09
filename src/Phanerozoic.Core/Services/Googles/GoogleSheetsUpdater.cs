@@ -104,7 +104,7 @@ namespace Phanerozoic.Core.Services.Googles
             var query = methodList.AsQueryable();
             query = query.Where(i => i.Repository == coverageEntity.Repository);
 
-            if (string.IsNullOrWhiteSpace(coverageEntity.Project))
+            if (string.IsNullOrWhiteSpace(coverageEntity.Project) == false)
             {
                 query = query.Where(i => i.Project == coverageEntity.Project);
             }

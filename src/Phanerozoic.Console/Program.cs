@@ -45,7 +45,7 @@ namespace Phanerozoic.Console
 
             var mode = string.IsNullOrWhiteSpace(configuration[Arguments.Mode]) == false ? configuration[Arguments.Mode].ToEnum<ModeType>() : ModeType.Full;
 
-            System.Console.WriteLine($"Mode: {nameof(mode)}");
+            System.Console.WriteLine($"Mode: {mode}");
             switch (mode)
             {
                 case ModeType.Parse:
