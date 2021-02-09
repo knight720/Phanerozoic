@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using FluentAssertions;
 using NSubstitute;
 using Phanerozoic.Core.Entities;
 using Phanerozoic.Core.Helpers;
+using Phanerozoic.Core.Test.Mocks;
 using Xunit;
 
 namespace Phanerozoic.Core.Services.Files.Tests
@@ -21,14 +23,18 @@ namespace Phanerozoic.Core.Services.Files.Tests
         public void Collect_FileName()
         {
             //// Arrange
+            var repositoryName = "Office.Repository";
             var projectName = "Office.Project";
+            var outputPath = "C:";
             var dateTime = new DateTime(2020, 1, 18);
-            var excpted = $"{projectName}_{dateTime.ToString("yyyyMMdd")}.json";
+            var excpted = Path.Combine(outputPath, $"{repositoryName}_{dateTime.ToString("yyyyMMdd")}.json");
 
             IList<CoverageEntity> methodList = new List<CoverageEntity>();
             CoreMethodCoverageEntity coverageEntity = new CoreMethodCoverageEntity
             {
+                Repository = repositoryName,
                 Project = projectName,
+                OutputPath = outputPath,
             };
 
             this._stubDateTimeHelper.Now.Returns(dateTime);
@@ -158,7 +164,7 @@ namespace Phanerozoic.Core.Services.Files.Tests
 
         private FileCollect GetTarget()
         {
-            return new FileCollect(this._stubDateTimeHelper);
+            return new MockFileCollect(this._stubDateTimeHelper);
         }
     }
 }

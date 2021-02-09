@@ -108,7 +108,7 @@ namespace Phanerozoic.Core.Services.Files
         /// </summary>
         /// <param name="fileName">Name of the file.</param>
         /// <param name="fileMethodList">The file method list.</param>
-        private void SaveCoverage(string fileName, IList<CoverageEntity> fileMethodList)
+        protected virtual void SaveCoverage(string fileName, IList<CoverageEntity> fileMethodList)
         {
             var data = JsonSerializer.Serialize(fileMethodList);
             File.WriteAllText(fileName, data);

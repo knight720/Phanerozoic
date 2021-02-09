@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Phanerozoic.Core.Entities;
 using Phanerozoic.Core.Helpers;
@@ -20,6 +21,7 @@ namespace Phanerozoic.Core.Services
         private readonly INotifyer _slackNotifyer;
         private readonly INotifyer _emailNotifyer;
         private readonly ICoverageLogger _coverageLogger;
+        private readonly IConfiguration _configuration;
 
         public CoverageProcessor(IServiceProvider serviceProvider)
         {
@@ -29,6 +31,7 @@ namespace Phanerozoic.Core.Services
             this._coverageCollect = serviceProvider.GetRequiredService<ICoverageCollect>();
             this._coverageUpdater = serviceProvider.GetRequiredService<ICoverageUpdater>();
             this._coverageLogger = serviceProvider.GetRequiredService<ICoverageLogger>();
+            this._configuration = serviceProvider.GetRequiredService<IConfiguration>();
         }
 
         public void Process(ReportEntity reportEntity, CoreMethodCoverageEntity coverageEntity)
@@ -49,7 +52,10 @@ namespace Phanerozoic.Core.Services
 
             //// Notify
             Console.WriteLine("* Notify");
-            this.GetSlackNotifyer().Notify(coverageEntity, updateMethodList);
+            if (IsSendSlack())
+            {
+                this.GetSlackNotifyer().Notify(coverageEntity, updateMethodList);
+            }
             this.GetEmailNotifyer().Notify(coverageEntity, updateMethodList);
 
             //// Log
@@ -98,7 +104,10 @@ namespace Phanerozoic.Core.Services
 
             //// Notify
             Console.WriteLine("* Notify");
-            this.GetSlackNotifyer().Notify(coverageEntity, updateMethodList);
+            if (IsSendSlack())
+            {
+                this.GetSlackNotifyer().Notify(coverageEntity, updateMethodList);
+            }
             this.GetEmailNotifyer().Notify(coverageEntity, updateMethodList);
 
             //// Log
@@ -116,6 +125,11 @@ namespace Phanerozoic.Core.Services
         {
             var notifyList = this._serviceProvider.GetServices<INotifyer>();
             return notifyList.FirstOrDefault(i => i is EmailNotifyer);
+        }
+
+        protected virtual bool IsSendSlack()
+        {
+            return this._configuration.GetValue<bool>("Slack", true);
         }
     }
 }

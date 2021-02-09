@@ -45,7 +45,7 @@ namespace Phanerozoic.Console
 
             var mode = string.IsNullOrWhiteSpace(configuration[Arguments.Mode]) == false ? configuration[Arguments.Mode].ToEnum<ModeType>() : ModeType.Full;
 
-            System.Console.WriteLine($"Mode: {mode.ToString()}");
+            System.Console.WriteLine($"Mode: {nameof(mode)}");
             switch (mode)
             {
                 case ModeType.Parse:
@@ -90,6 +90,7 @@ namespace Phanerozoic.Console
                 { "-m", Arguments.Mode },
                 { "-r", Arguments.Repository },
                 { "-p", Arguments.Project },
+                { "-s", Arguments.Slack },
             };
 
             var configurationRoot = new ConfigurationBuilder()
