@@ -2,6 +2,7 @@
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Phanerozoic.Console.Constents;
 using Phanerozoic.Core.Entities;
 using Phanerozoic.Core.Helpers;
 using Phanerozoic.Core.Services;
@@ -19,14 +20,14 @@ namespace Phanerozoic.Console
         {
             // create service collection
             var serviceCollection = new ServiceCollection();
-            var configurateion = ConfigureServices(serviceCollection, args);
+            var configuration = ConfigureServices(serviceCollection, args);
 
             // create service provider
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
             var reportEntity = new ReportEntity
             {
-                FilePath = args[0].Trim(),
+                FilePath = configuration[Arguments.Report].Trim(),
             };
 
             var file = new FileInfo(reportEntity.FilePath);
@@ -36,14 +37,14 @@ namespace Phanerozoic.Console
             {
                 CoverageFileName = $"{fileName}.csv",
                 OutputPath = file.DirectoryName,
-                Repository = args[1].Trim(),
-                Project = args[2].Trim(),
+                Repository = configuration[Arguments.Repository].Trim(),
+                Project = configuration[Arguments.Project].Trim(),
             };
 
             var coverageProcessor = serviceProvider.GetService<ICoverageProcessor>();
 
             var mode = ModeType.Full;
-            mode = configurateion["Mode"].ToEnum<ModeType>();
+            mode = configuration[Arguments.Mode].ToEnum<ModeType>();
 
             System.Console.WriteLine($"Mode: {mode.ToString()}");
             switch (mode)
@@ -87,7 +88,9 @@ namespace Phanerozoic.Console
 
             var switchMappings = new Dictionary<string, string>()
             {
-                { "--m", "Mode" },
+                { "-m", Arguments.Mode },
+                { "-r", Arguments.Repository },
+                { "-p", Arguments.Project },
             };
 
             var configurationRoot = new ConfigurationBuilder()
