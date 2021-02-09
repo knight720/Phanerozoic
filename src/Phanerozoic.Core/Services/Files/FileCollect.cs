@@ -49,6 +49,8 @@ namespace Phanerozoic.Core.Services.Files
         {
             var fileName = GetFileName(coverageEntity);
 
+            Console.WriteLine($"Collect File Name: {fileName}");
+
             //// Load File
             var fileMethodList = LoadCoverage(fileName);
 

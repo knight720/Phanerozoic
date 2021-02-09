@@ -37,7 +37,7 @@ namespace Phanerozoic.Core.Services.Googles
 
                     if (row.Count < 9)
                     {
-                        Console.WriteLine($"Pass Row:{index}, Value: {row.EnumerableToString()}");
+                        Console.WriteLine($"Pass Sheet Row:{index}, Value: {row.EnumerableToString()}");
                         continue;
                     }
 
