@@ -25,8 +25,8 @@ namespace Phanerozoic.Core.Services.Googles
             SymbolDictionary = new Dictionary<CoverageStatus, string>
             {
                 { CoverageStatus.Unchange, "=" },
-                { CoverageStatus.Up, "▲" },
-                { CoverageStatus.Down, "▼" }
+                { CoverageStatus.Up, "^" },
+                { CoverageStatus.Down, "v" }
             };
         }
 
