@@ -41,7 +41,14 @@ namespace Phanerozoic.Core.Services.Emails
             Console.WriteLine($"Email From: {_from}");
             Console.WriteLine($"To: {string.Join(',', _toList)}");
 
-            var projectMethod = methodList.Where(i => i.Repository == coverageEntity.Repository && i.Project == coverageEntity.Project).ToList();
+            var query = methodList.AsQueryable();
+            query = query.Where(i => i.Repository == coverageEntity.Repository);
+            if (string.IsNullOrWhiteSpace(coverageEntity.Project) == false)
+            {
+                query = query.Where(i => i.Project == coverageEntity.Project);
+            }
+            var projectMethod = query.ToList();
+
             var downMethod = projectMethod.Where(i => i.Status == CoverageStatus.Down).ToList();
             var updateMethodCount = projectMethod.Count(i => i.IsUpdate);
 
