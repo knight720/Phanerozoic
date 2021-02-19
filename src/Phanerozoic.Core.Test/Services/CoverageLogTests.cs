@@ -59,6 +59,7 @@ namespace Phanerozoic.Core.Services.Tests
                 new CoverageEntity()
             };
             this._stubDateTimeHelper.Now.Returns(time);
+            this._stubConfiguration["Google:Sheets:Interval"].Returns("1000");
 
             //// Act
             GetTarget().Log(methodList);
