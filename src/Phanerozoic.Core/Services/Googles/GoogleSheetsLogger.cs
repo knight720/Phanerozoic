@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Phanerozoic.Core.Entities;
@@ -16,6 +17,7 @@ namespace Phanerozoic.Core.Services.Googles
         private readonly IGoogleSheetsService _googleSheetsService;
         private readonly IConfiguration _configuration;
         private string _sheetsId;
+        private int _interval;
 
         public GoogleSheetsLogger(IServiceProvider serviceProvider, IConfiguration configuration)
         {
@@ -24,6 +26,7 @@ namespace Phanerozoic.Core.Services.Googles
             _googleSheetsService = serviceProvider.GetService<IGoogleSheetsService>();
 
             _sheetsId = _configuration["Google:Sheets:Id"];
+            _interval = int.Parse(_configuration["Google:Sheets:Interval"]);
         }
 
         public void Log(IList<CoverageEntity> methodList)
@@ -62,6 +65,7 @@ namespace Phanerozoic.Core.Services.Googles
                     var range = $"{now.Year}!{col.columnLetter}{method.RawIndex}";
                     var values = SheetHelper.ObjectToValues(method.Coverage);
                     _googleSheetsService.SetValue(_sheetsId, range, values);
+                    Thread.Sleep(_interval);
                 }
             }
 
@@ -85,6 +89,7 @@ namespace Phanerozoic.Core.Services.Googles
                 var values = new List<IList<object>> { row };
 
                 _googleSheetsService.SetValue(_sheetsId, range, values);
+                Thread.Sleep(_interval);
             }
         }
 
@@ -100,6 +105,7 @@ namespace Phanerozoic.Core.Services.Googles
             var range = $"{now.Year}!{columnLetter}1";
             var values = SheetHelper.ObjectToValues(columnName);
             _googleSheetsService.SetValue(_sheetsId, range, values);
+            Thread.Sleep(_interval);
 
             return (column, columnLetter);
         }
@@ -116,6 +122,7 @@ namespace Phanerozoic.Core.Services.Googles
             var range = $"{now.Year}!{columnLetter}1";
             var values = SheetHelper.ObjectToValues(columnName);
             _googleSheetsService.SetValue(_sheetsId, range, values);
+            Thread.Sleep(_interval);
 
             return (column, columnLetter);
         }
