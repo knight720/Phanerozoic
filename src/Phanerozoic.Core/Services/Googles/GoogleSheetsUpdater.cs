@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Phanerozoic.Core.Entities;
 using Phanerozoic.Core.Helpers;
-using Phanerozoic.Core.Services.Interface;
+using Phanerozoic.Core.Services.Interfaces;
 
-namespace Phanerozoic.Core.Services
+namespace Phanerozoic.Core.Services.Googles
 {
     public class GoogleSheetsUpdater : ICoverageUpdater
     {
@@ -15,6 +16,7 @@ namespace Phanerozoic.Core.Services
         private readonly IGoogleSheetsService _googleSheetsService;
         private readonly ICoverageReader _coverageReader;
         private string _sheetsId;
+        private int _interval;
 
         private static Dictionary<CoverageStatus, string> SymbolDictionary;
 
@@ -23,33 +25,34 @@ namespace Phanerozoic.Core.Services
             SymbolDictionary = new Dictionary<CoverageStatus, string>
             {
                 { CoverageStatus.Unchange, "=" },
-                { CoverageStatus.Up, "▲" },
-                { CoverageStatus.Down, "▼" }
+                { CoverageStatus.Up, "^" },
+                { CoverageStatus.Down, "v" }
             };
         }
 
         public GoogleSheetsUpdater(IServiceProvider serviceProvider, IConfiguration configuration)
         {
-            this._configuration = configuration;
-            this._googleSheetsService = serviceProvider.GetService<IGoogleSheetsService>();
-            this._coverageReader = serviceProvider.GetService<ICoverageReader>();
+            _configuration = configuration;
+            _googleSheetsService = serviceProvider.GetService<IGoogleSheetsService>();
+            _coverageReader = serviceProvider.GetService<ICoverageReader>();
 
-            this._sheetsId = this._configuration["Google:Sheets:Id"];
+            _sheetsId = _configuration["Google:Sheets:Id"];
+            _interval = int.Parse(_configuration["Google:Sheets:Interval"]);
 
-            Console.WriteLine($"Target Sheets ID: {this._sheetsId}");
+            Console.WriteLine($"Target Sheets ID: {_sheetsId}");
         }
 
         public IList<CoverageEntity> Update(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> reportMethodList)
         {
             var reportMethodTotalCount = reportMethodList.Count;
-            reportMethodList = this.FilterMethod(coverageEntity, reportMethodList);
+            reportMethodList = FilterMethod(coverageEntity, reportMethodList);
             Console.WriteLine("** Report Method");
             Console.WriteLine($"Repository: {coverageEntity.Repository}, Project: {coverageEntity.Project}, Method Count: {reportMethodList.Count}/{reportMethodTotalCount}");
 
-            IList<CoverageEntity> sheetMethodList = this._coverageReader.GetList();
+            IList<CoverageEntity> sheetMethodList = _coverageReader.GetList();
 
             var sheetMethodTotalCount = sheetMethodList.Count;
-            sheetMethodList = this.FilterMethod(coverageEntity, sheetMethodList);
+            sheetMethodList = FilterMethod(coverageEntity, sheetMethodList);
             Console.WriteLine("** Sheet Method");
             Console.WriteLine($"Repository: {coverageEntity.Repository}, Project: {coverageEntity.Project}, Method Count: {sheetMethodList.Count}/{sheetMethodTotalCount}");
             if (sheetMethodList.Count <= 0)
@@ -76,14 +79,14 @@ namespace Phanerozoic.Core.Services
 
                 if (coreMethod.Status != CoverageStatus.Unchange || coreMethod.Coverage == 0)
                 {
-                    this.UpdateCell($"F{coreMethod.RawIndex}", coreMethod.Coverage);
+                    UpdateCell($"F{coreMethod.RawIndex}", coreMethod.Coverage);
                 }
                 //// 目標涵蓋率小於0則不更新
                 if (coreMethod.TargetCoverage > -1 && (coreMethod.TargetCoverage != coreMethod.NewTargetCoverage || coreMethod.NewTargetCoverage == 0))
                 {
-                    this.UpdateCell($"H{coreMethod.RawIndex}", coreMethod.NewTargetCoverage);
+                    UpdateCell($"H{coreMethod.RawIndex}", coreMethod.NewTargetCoverage);
                 }
-                this.UpdateCell($"L{coreMethod.RawIndex}", DateTime.Now.ToString(DateTimeHelper.Format));
+                UpdateCell($"L{coreMethod.RawIndex}", DateTime.Now.ToString(DateTimeHelper.Format));
             }
             Console.WriteLine($"Update Rate: {updateCount}/{sheetMethodList.Count}");
 
@@ -98,10 +101,15 @@ namespace Phanerozoic.Core.Services
         /// <returns></returns>
         private IList<CoverageEntity> FilterMethod(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
         {
-            return methodList.Where(i =>
-                            i.Repository == coverageEntity.Repository &&
-                            i.Project == coverageEntity.Project
-                            ).ToList();
+            var query = methodList.AsQueryable();
+            query = query.Where(i => i.Repository == coverageEntity.Repository);
+
+            if (string.IsNullOrWhiteSpace(coverageEntity.Project) == false)
+            {
+                query = query.Where(i => i.Project == coverageEntity.Project);
+            }
+
+            return query.ToList();
         }
 
         private void UpdateCell(string range, object value)
@@ -114,7 +122,8 @@ namespace Phanerozoic.Core.Services
                     }
                 };
 
-            this._googleSheetsService.SetValue(this._sheetsId, range, updateValues);
+            _googleSheetsService.SetValue(_sheetsId, range, updateValues);
+            Thread.Sleep(_interval);
         }
     }
 }

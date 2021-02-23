@@ -3,6 +3,7 @@ using NSubstitute;
 using Phanerozoic.Core.Entities;
 using Phanerozoic.Core.Helpers;
 using Phanerozoic.Core.Services;
+using Phanerozoic.Core.Services.Files;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -29,7 +30,8 @@ namespace Phanerozoic.Core.Test.Services
             var methodList = new List<CoverageEntity>();
             var coverageEntity = new CoreMethodCoverageEntity
             {
-                FilePath = "a.txt"
+                CoverageFileName = "a.txt",
+                OutputPath = @"D:\",
             };
 
             //// Act

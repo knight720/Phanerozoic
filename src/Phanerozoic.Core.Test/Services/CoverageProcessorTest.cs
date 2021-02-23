@@ -2,11 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using FluentAssertions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Phanerozoic.Core.Entities;
 using Phanerozoic.Core.Helpers;
 using Phanerozoic.Core.Services;
+using Phanerozoic.Core.Services.Interfaces;
+using Phanerozoic.Core.Test.Mocks;
 using Xunit;
 
 namespace Phanerozoic.Core.Test.Services
@@ -20,6 +23,8 @@ namespace Phanerozoic.Core.Test.Services
         private readonly INotifyer _stubNotifyer;
         private readonly INotifyer _stubEmailNotifyer;
         private readonly ICoverageLogger _stubCoverageLogger;
+        private readonly ICoverageCollect _stubCoverageCollect;
+        private readonly IConfiguration _stubConfiguration;
 
         public CoverageProcessorTest()
         {
@@ -29,6 +34,8 @@ namespace Phanerozoic.Core.Test.Services
             this._stubNotifyer = Substitute.For<INotifyer>();
             this._stubEmailNotifyer = Substitute.For<INotifyer>();
             this._stubCoverageLogger = Substitute.For<ICoverageLogger>();
+            this._stubCoverageCollect = Substitute.For<ICoverageCollect>();
+            this._stubConfiguration = Substitute.For<IConfiguration>();
 
             this._stubServiceProvider = Substitute.For<IServiceProvider>();
             this._stubServiceProvider.GetService<IFileHelper>().Returns(this._stubFileHelper);
@@ -40,6 +47,8 @@ namespace Phanerozoic.Core.Test.Services
             //this._stubServiceProvider.GetService<INotifyer>().Returns(new EmailNotifyer(this._stubServiceProvider));
             this._stubServiceProvider.GetService<IEnumerable<INotifyer>>().Returns(new List<INotifyer> { this._stubNotifyer, this._stubEmailNotifyer });
             this._stubServiceProvider.GetService<ICoverageLogger>().Returns(this._stubCoverageLogger);
+            this._stubServiceProvider.GetService<ICoverageCollect>().Returns(this._stubCoverageCollect);
+            this._stubServiceProvider.GetService<IConfiguration>().Returns(this._stubConfiguration);
 
             //this._stubServiceProvider.GetServices<INotifyer>();
             //this._stubServiceProvider.GetServices<INotifyer>().Returns(new List<INotifyer> { this._stubNotifyer, this._stubEmailNotifyer });
@@ -56,7 +65,7 @@ namespace Phanerozoic.Core.Test.Services
             };
             var coverageEntity = new CoreMethodCoverageEntity
             {
-                FilePath = "coverage.csv"
+                CoverageFileName = "coverage.csv"
             };
 
             var target = GetTarget();
@@ -83,7 +92,7 @@ namespace Phanerozoic.Core.Test.Services
             };
             var coverageEntity = new CoreMethodCoverageEntity
             {
-                FilePath = "coverage.csv"
+                CoverageFileName = "coverage.csv"
             };
 
             var target = GetTarget();
@@ -102,6 +111,7 @@ namespace Phanerozoic.Core.Test.Services
             var target = new StubCoverageProcessor(this._stubServiceProvider);
             target.StubSlackNotifyer = this._stubNotifyer;
             target.StubEmailNotifyer = this._stubEmailNotifyer;
+            target.StubIsSendSlack = true;
             return target;
         }
     }

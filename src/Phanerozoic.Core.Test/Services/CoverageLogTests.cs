@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Phanerozoic.Core.Entities;
 using Phanerozoic.Core.Helpers;
+using Phanerozoic.Core.Services.Googles;
+using Phanerozoic.Core.Services.Interfaces;
 using Xunit;
 
 namespace Phanerozoic.Core.Services.Tests
@@ -57,6 +59,7 @@ namespace Phanerozoic.Core.Services.Tests
                 new CoverageEntity()
             };
             this._stubDateTimeHelper.Now.Returns(time);
+            this._stubConfiguration["Google:Sheets:Interval"].Returns("1000");
 
             //// Act
             GetTarget().Log(methodList);

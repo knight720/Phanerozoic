@@ -10,8 +10,9 @@ using Google.Apis.Util.Store;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Phanerozoic.Core.Entities;
+using Phanerozoic.Core.Services.Interfaces;
 
-namespace Phanerozoic.Core.Services
+namespace Phanerozoic.Core.Services.Googles
 {
     public class GoogleSheetsService : IGoogleSheetsService
     {
@@ -29,10 +30,10 @@ namespace Phanerozoic.Core.Services
         {
             IConfiguration configuration = serviceProvider.GetService<IConfiguration>();
 
-            this._credentialType = Enum.Parse<GoogleCredentialType>(configuration["Google:Credential:Type"]);
-            this._credentialsPath = configuration["Google:Credential:File"];
+            _credentialType = Enum.Parse<GoogleCredentialType>(configuration["Google:Credential:Type"]);
+            _credentialsPath = configuration["Google:Credential:File"];
 
-            Console.WriteLine($"Google API Credential Type: {this._credentialType.ToString()}");
+            Console.WriteLine($"Google API Credential Type: {_credentialType.ToString()}");
         }
 
         private ICredential GetCredential(GoogleCredentialType credentialType, string credentialsPaht)
@@ -49,7 +50,7 @@ namespace Phanerozoic.Core.Services
 
         private ICredential GetUserCredential(string credentialsPath)
         {
-            if (this._userCredential == null)
+            if (_userCredential == null)
             {
                 //// TODO 提醒使用者在瀏覽器頁面開啟權限
 
@@ -59,7 +60,7 @@ namespace Phanerozoic.Core.Services
                     // The file token.json stores the user's access and refresh tokens, and is created
                     // automatically when the authorization flow completes for the first time.
                     string credPath = "token.json";
-                    this._userCredential = GoogleWebAuthorizationBroker.AuthorizeAsync(
+                    _userCredential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                         GoogleClientSecrets.Load(stream).Secrets,
                         _scopes,
                         "Phanerozoic",
@@ -69,16 +70,16 @@ namespace Phanerozoic.Core.Services
                 }
             }
 
-            return this._userCredential;
+            return _userCredential;
         }
 
         private ICredential GetServiceCredential(string credentialsPath)
         {
-            if (this._serviceAccountCredential == null)
+            if (_serviceAccountCredential == null)
             {
-                this._serviceAccountCredential = GoogleCredential.FromFile(credentialsPath).CreateScoped(this._scopes);
+                _serviceAccountCredential = GoogleCredential.FromFile(credentialsPath).CreateScoped(_scopes);
             }
-            return this._serviceAccountCredential;
+            return _serviceAccountCredential;
         }
 
         private SheetsService GetSheets(ICredential credential)
@@ -101,7 +102,7 @@ namespace Phanerozoic.Core.Services
 
             // Prints the names and majors of students in a sample spreadsheet:
             ValueRange response = request.Execute();
-            IList<IList<Object>> values = response.Values;
+            IList<IList<object>> values = response.Values;
             return values;
         }
 
@@ -111,7 +112,7 @@ namespace Phanerozoic.Core.Services
 
             // TODO: Assign values to desired properties of `requestBody`. All existing
             // properties will be replaced:
-            Google.Apis.Sheets.v4.Data.ValueRange requestBody = new Google.Apis.Sheets.v4.Data.ValueRange
+            ValueRange requestBody = new ValueRange
             {
                 Values = values,
             };
@@ -120,7 +121,7 @@ namespace Phanerozoic.Core.Services
             request.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.USERENTERED;
 
             // To execute asynchronously in an async method, replace `request.Execute()` as shown:
-            Google.Apis.Sheets.v4.Data.UpdateValuesResponse response = request.Execute();
+            UpdateValuesResponse response = request.Execute();
             // Data.UpdateValuesResponse response = await request.ExecuteAsync();
 
             // TODO: Change code below to process the `response` object:
@@ -129,7 +130,7 @@ namespace Phanerozoic.Core.Services
 
         public void CreateSheet(string spreadsheetId, string sheetName)
         {
-            var sheetService = this.GetSheetsService();
+            var sheetService = GetSheetsService();
 
             // Add new Sheet
             var addSheetRequest = new AddSheetRequest();
@@ -149,8 +150,8 @@ namespace Phanerozoic.Core.Services
 
         private SheetsService GetSheetsService()
         {
-            var credential = this.GetCredential(this._credentialType, this._credentialsPath);
-            return this.GetSheets(credential);
+            var credential = GetCredential(_credentialType, _credentialsPath);
+            return GetSheets(credential);
         }
     }
 }

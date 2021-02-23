@@ -5,14 +5,14 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Phanerozoic.Core.Entities;
-using Phanerozoic.Core.Services.Interface;
+using Phanerozoic.Core.Services.Interfaces;
 
-namespace Phanerozoic.Core.Services.Notifications
+namespace Phanerozoic.Core.Services.Emails
 {
     /// <summary>
     ///
     /// </summary>
-    /// <seealso cref="Phanerozoic.Core.Services.INotifyer" />
+    /// <seealso cref="INotifyer" />
     public class EmailNotifyer : INotifyer
     {
         private readonly IEmailService _emailService;
@@ -26,22 +26,29 @@ namespace Phanerozoic.Core.Services.Notifications
         public EmailNotifyer(IServiceProvider serviceProvider)
         {
             var configuration = serviceProvider.GetService<IConfiguration>();
-            this._emailService = serviceProvider.GetService<IEmailService>();
+            _emailService = serviceProvider.GetService<IEmailService>();
 
-            this._from = configuration["Notification:From"];
+            _from = configuration["Notification:From"];
             var to = configuration["Notification:To"];
             if (string.IsNullOrWhiteSpace(to) == false)
             {
-                this._toList = to.Split(',').ToList();
+                _toList = to.Split(',').ToList();
             }
         }
 
         public void Notify(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
         {
-            Console.WriteLine($"Email From: {this._from}");
-            Console.WriteLine($"To: {string.Join(',', this._toList)}");
+            Console.WriteLine($"Email From: {_from}");
+            Console.WriteLine($"To: {string.Join(',', _toList)}");
 
-            var projectMethod = methodList.Where(i => i.Repository == coverageEntity.Repository && i.Project == coverageEntity.Project).ToList();
+            var query = methodList.AsQueryable();
+            query = query.Where(i => i.Repository == coverageEntity.Repository);
+            if (string.IsNullOrWhiteSpace(coverageEntity.Project) == false)
+            {
+                query = query.Where(i => i.Project == coverageEntity.Project);
+            }
+            var projectMethod = query.ToList();
+
             var downMethod = projectMethod.Where(i => i.Status == CoverageStatus.Down).ToList();
             var updateMethodCount = projectMethod.Count(i => i.IsUpdate);
 
@@ -55,7 +62,7 @@ namespace Phanerozoic.Core.Services.Notifications
             stringBuilder.AppendLine($"Coverage Down Method Count: {downMethod.Count}");
             downMethod.ForEach(i => stringBuilder.AppendLine($"{i.Class}.{i.Method}: {i.TargetCoverage} → {i.Coverage}"));
 
-            this._emailService.Send(this._from, this._toList, subject, stringBuilder.ToString());
+            _emailService.Send(_from, _toList, subject, stringBuilder.ToString());
         }
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Phanerozoic.Core.Entities;
 using Phanerozoic.Core.Helpers;
-using Phanerozoic.Core.Services.Interface;
+using Phanerozoic.Core.Services.Interfaces;
 
 namespace Phanerozoic.Core.Services.Googles
 {
@@ -37,7 +37,7 @@ namespace Phanerozoic.Core.Services.Googles
 
                     if (row.Count < 9)
                     {
-                        Console.WriteLine($"Pass Row:{index}, Value: {row.EnumerableToString()}");
+                        Console.WriteLine($"Pass Sheet Row:{index}, Value: {row.EnumerableToString()}");
                         continue;
                     }
 

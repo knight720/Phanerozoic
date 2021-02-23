@@ -56,6 +56,11 @@ reportgenerator -reports:./output/coverage.opencover.xml -reporttypes:Html -targ
 > [Google Sheets API](https://developers.google.com/sheets/api/quickstart/dotnet)  
 > [Google Sheets API v4 - How to get the last row with value?](https://stackoverflow.com/questions/37331756/google-sheets-api-v4-how-to-get-the-last-row-with-value)
 
+- Rate Limit
+This version of the Google Sheets API has a limit of 500 requests per 100 seconds per project, and 100 requests per 100 seconds per user.
+
+> [Usage Limits](https://developers.google.com/sheets/api/
+
 ## Notify  
 ### Slack  
 > [Sending messages using Incoming Webhooks](https://api.slack.com/messaging/webhooks)  

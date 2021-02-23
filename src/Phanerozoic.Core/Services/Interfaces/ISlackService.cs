@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Phanerozoic.Core.Services
+namespace Phanerozoic.Core.Services.Interfaces
 {
     public interface ISlackService
     {

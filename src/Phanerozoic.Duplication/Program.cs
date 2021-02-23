@@ -5,7 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Phanerozoic.Core.Entities;
 using Phanerozoic.Core.Helpers;
-using Phanerozoic.Core.Services;
+using Phanerozoic.Core.Services.Googles;
+using Phanerozoic.Core.Services.Interfaces;
 
 namespace Phanerozoic.Duplication
 {

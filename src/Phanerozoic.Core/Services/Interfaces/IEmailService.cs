@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Phanerozoic.Core.Services.Interface
+namespace Phanerozoic.Core.Services.Interfaces
 {
     /// <summary>
     /// 電子郵件發送服務

@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Phanerozoic.Core.Entities;
 using Phanerozoic.Core.Helpers;
+using Phanerozoic.Core.Services.Interfaces;
 
-namespace Phanerozoic.Core.Services
+namespace Phanerozoic.Core.Services.Googles
 {
     public class GoogleSheetsLogger : ICoverageLogger
     {
@@ -15,14 +17,16 @@ namespace Phanerozoic.Core.Services
         private readonly IGoogleSheetsService _googleSheetsService;
         private readonly IConfiguration _configuration;
         private string _sheetsId;
+        private int _interval;
 
         public GoogleSheetsLogger(IServiceProvider serviceProvider, IConfiguration configuration)
         {
-            this._configuration = configuration;
-            this._dateTimeHelper = serviceProvider.GetService<IDateTimeHelper>();
-            this._googleSheetsService = serviceProvider.GetService<IGoogleSheetsService>();
+            _configuration = configuration;
+            _dateTimeHelper = serviceProvider.GetService<IDateTimeHelper>();
+            _googleSheetsService = serviceProvider.GetService<IGoogleSheetsService>();
 
-            this._sheetsId = this._configuration["Google:Sheets:Id"];
+            _sheetsId = _configuration["Google:Sheets:Id"];
+            _interval = int.Parse(_configuration["Google:Sheets:Interval"]);
         }
 
         public void Log(IList<CoverageEntity> methodList)
@@ -48,8 +52,8 @@ namespace Phanerozoic.Core.Services
 
             //// Write Log Data
             int firstColumn = 5;
-            var now = this._dateTimeHelper.Now;
-            var col = this.GetColumnLetterByWeek(firstColumn, now);
+            var now = _dateTimeHelper.Now;
+            var col = GetColumnLetterByWeek(firstColumn, now);
 
             //// Write Method
             Console.WriteLine("** Write Coverage Log");
@@ -60,7 +64,8 @@ namespace Phanerozoic.Core.Services
                     Console.WriteLine($"{method.ToString()}");
                     var range = $"{now.Year}!{col.columnLetter}{method.RawIndex}";
                     var values = SheetHelper.ObjectToValues(method.Coverage);
-                    this._googleSheetsService.SetValue(this._sheetsId, range, values);
+                    _googleSheetsService.SetValue(_sheetsId, range, values);
+                    Thread.Sleep(_interval);
                 }
             }
 
@@ -83,13 +88,14 @@ namespace Phanerozoic.Core.Services
                 row[col.column - 1] = method.Coverage;
                 var values = new List<IList<object>> { row };
 
-                this._googleSheetsService.SetValue(this._sheetsId, range, values);
+                _googleSheetsService.SetValue(_sheetsId, range, values);
+                Thread.Sleep(_interval);
             }
         }
 
         private (int column, string columnLetter) GetColumnLetterByWeek(int firstColumn, DateTime now)
         {
-            var week = this.GetWeek(now);
+            var week = GetWeek(now);
             var column = firstColumn + week;
             var columnLetter = SheetHelper.ColumnToLetter(column);
 
@@ -98,7 +104,8 @@ namespace Phanerozoic.Core.Services
             Console.WriteLine($"Write Column: {columnName}");
             var range = $"{now.Year}!{columnLetter}1";
             var values = SheetHelper.ObjectToValues(columnName);
-            this._googleSheetsService.SetValue(this._sheetsId, range, values);
+            _googleSheetsService.SetValue(_sheetsId, range, values);
+            Thread.Sleep(_interval);
 
             return (column, columnLetter);
         }
@@ -114,7 +121,8 @@ namespace Phanerozoic.Core.Services
             Console.WriteLine($"Write Column: {columnName}");
             var range = $"{now.Year}!{columnLetter}1";
             var values = SheetHelper.ObjectToValues(columnName);
-            this._googleSheetsService.SetValue(this._sheetsId, range, values);
+            _googleSheetsService.SetValue(_sheetsId, range, values);
+            Thread.Sleep(_interval);
 
             return (column, columnLetter);
         }
@@ -127,11 +135,11 @@ namespace Phanerozoic.Core.Services
 
         private List<CoverageEntity> GetCurrentMethodList()
         {
-            var now = this._dateTimeHelper.Now;
+            var now = _dateTimeHelper.Now;
             var startIndex = 1;
             var maxRow = string.Empty;
             List<CoverageEntity> methodLogList = new List<CoverageEntity>();
-            IList<IList<object>> values = this._googleSheetsService.GetValues(this._sheetsId, $"{now.Year}!A{startIndex + 1}:I{maxRow}");
+            IList<IList<object>> values = _googleSheetsService.GetValues(_sheetsId, $"{now.Year}!A{startIndex + 1}:I{maxRow}");
 
             var index = startIndex;
             if (values != null && values.Count > 0)
