@@ -11,6 +11,12 @@ Parse, Update and Notify.
 3. dotCover			計算涵蓋率
 4. Phanerozoic		更新涵蓋率
 
+## To Do
+- HolidayManager  
+    - HolidayManager.Add(WeekendHoliday)
+    - HolidayManager.Add(GovementHoliday) // API Fail then by pass
+- HolidayManget.IsHoliday(DateTime.Now)
+
 ## Coverage Tool
 ### dotcover
 ```
