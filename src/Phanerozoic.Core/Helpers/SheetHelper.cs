@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Phanerozoic.Core.Helpers
@@ -78,6 +79,23 @@ namespace Phanerozoic.Core.Helpers
                 return decimal.TryParse(str, out value) ? value : default(decimal?);
             }
             return default;
+        }
+
+        /// <summary>
+        /// Since Enum Type implements IConvertible interface, a better implementation should be something like this:
+        /// https://stackoverflow.com/questions/79126/create-generic-method-constraining-t-to-an-enum
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj">The object.</param>
+        /// <returns></returns>
+        public static T ObjectToEnum<T>(this object obj) where T : struct, IConvertible
+        {
+            T result = default;
+            if (obj != null)
+            {
+                Enum.TryParse(obj.ToString(), true, out result);
+            }
+            return result;
         }
 
         public static IList<IList<object>> ArrayToObjectList(object[] objArray)

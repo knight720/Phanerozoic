@@ -12,6 +12,7 @@ namespace Phanerozoic.Core.Entities
         public string Class { get; set; }
         public string Method { get; set; }
         public int Coverage { get; set; }
+        public MethodLevel Level { get; set; }
 
         [JsonIgnore]
         public int LastCoverage { get; private set; }
