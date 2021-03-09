@@ -15,6 +15,7 @@ Parse, Update and Notify.
 - HolidayManager  
     - HolidayManager.Add(WeekendHoliday)
     - HolidayManager.Add(GovementHoliday) // API Fail then by pass
+        https://data.ntpc.gov.tw/api/datasets/308DCD75-6434-45BC-A95F-584DA4FED251/json?page=0&size=100
 - HolidayManget.IsHoliday(DateTime.Now)
 
 ## Coverage Tool
