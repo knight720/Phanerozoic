@@ -50,7 +50,8 @@ namespace Phanerozoic.Core.Services.Googles
                         Method = row[4].ToString().Trim(),
                         Coverage = row.Count > 5 ? SheetHelper.ObjectToInt(row[5]) : 0,
                         TargetCoverage = row.Count > 7 ? SheetHelper.ObjectToInt(row[7]) : 0,
-                        Team = row[8].ToString().Trim(),
+                        Level = SheetHelper.ObjectToEnum<MethodLevel>(row[8]),
+                        Team = row[9].ToString().Trim(),
                         RawIndex = index,
                         RawData = row,
                     };

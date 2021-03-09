@@ -55,8 +55,9 @@ namespace Phanerozoic.Core.Services.Googles
             sheetMethodList = FilterMethod(coverageEntity, sheetMethodList);
             Console.WriteLine("** Sheet Method");
             Console.WriteLine($"Repository: {coverageEntity.Repository}, Project: {coverageEntity.Project}, Method Count: {sheetMethodList.Count}/{sheetMethodTotalCount}");
-            if (sheetMethodList.Count <= 0)
+            if (sheetMethodList.Count <= 0 || reportMethodList.Count <= 0)
             {
+                Console.WriteLine($"No Update. Report Count: {reportMethodList.Count}, Sheet Count: {sheetMethodList.Count}");
                 return sheetMethodList;
             }
 

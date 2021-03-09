@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Phanerozoic.Core.Entities;
 using Xunit;
 
 namespace Phanerozoic.Core.Helpers.Tests
@@ -21,6 +22,28 @@ namespace Phanerozoic.Core.Helpers.Tests
 
             //// Assert
             actual.Should().Be(letter);
+        }
+
+        [Fact(DisplayName = "Object 轉 Enum")]
+        public void ObjectToEnumTest()
+        {
+            ObjectToEnumAssert(MethodLevel.High.ToString(), MethodLevel.High);
+            ObjectToEnumAssert(MethodLevel.Middle.ToString(), MethodLevel.Middle);
+            ObjectToEnumAssert(MethodLevel.Low.ToString(), MethodLevel.Low);
+            ObjectToEnumAssert(MethodLevel.Middle.ToString().ToLower(), MethodLevel.Middle);
+            ObjectToEnumAssert($" {MethodLevel.Middle.ToString().ToLower()} ", MethodLevel.Middle);
+            ObjectToEnumAssert($" {MethodLevel.Middle.ToString()} ", MethodLevel.Middle);
+            ObjectToEnumAssert(null, MethodLevel.Low);
+            ObjectToEnumAssert("ErrorValue", MethodLevel.Low);
+        }
+
+        private static void ObjectToEnumAssert(object value, MethodLevel expected)
+        {
+            //// Act
+            var actual = SheetHelper.ObjectToEnum<MethodLevel>(value);
+
+            //// Assert
+            actual.Should().Be(expected);
         }
     }
 }

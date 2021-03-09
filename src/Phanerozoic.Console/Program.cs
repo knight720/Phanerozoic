@@ -101,6 +101,7 @@ namespace Phanerozoic.Console
                 .Build();
 
             serviceCollection.AddSingleton<IConfiguration>(configurationRoot);
+            serviceCollection.AddHttpClient();
 
             return configurationRoot;
         }

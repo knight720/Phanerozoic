@@ -74,11 +74,17 @@ namespace Phanerozoic.Core.Services.Slacks
             }
 
             var color = failCount > 0 ? "#FF0000" : "#00FF00";
+            var project = string.Empty;
+            if (string.IsNullOrWhiteSpace(coverageEntity.Project) == false)
+            {
+                project = $"Project: {coverageEntity.Project} ";
+            }
+            var title = $"{project}涵蓋率未通過數量: {failCount}";
             var attachment = new Attachment
             {
                 Color = color,
                 AuthorName = $"Repository: {coverageEntity.Repository}",
-                Title = $"Project: {coverageEntity.Project} 涵蓋率未通過數量: {failCount}",
+                Title = title,
                 Footer = $"Phanerozoic Notifyer",
             };
 
