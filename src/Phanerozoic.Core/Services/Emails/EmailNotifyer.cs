@@ -56,7 +56,10 @@ namespace Phanerozoic.Core.Services.Emails
 
             var stringBuilder = new StringBuilder();
             stringBuilder.AppendLine($"Repository: {coverageEntity.Repository}");
-            stringBuilder.AppendLine($"Project: {coverageEntity.Project}");
+            if (string.IsNullOrWhiteSpace(coverageEntity.Project) == false)
+            {
+                stringBuilder.AppendLine($"Project: {coverageEntity.Project}");
+            }
             stringBuilder.AppendLine($"Project Method Count: {projectMethod.Count}");
             stringBuilder.AppendLine($"Update Method Count: {updateMethodCount}");
             stringBuilder.AppendLine($"Coverage Down Method Count: {downMethod.Count}");
