@@ -77,7 +77,7 @@ namespace Phanerozoic.Core.Services.Slacks
             var project = string.Empty;
             if (string.IsNullOrWhiteSpace(coverageEntity.Project) == false)
             {
-                project = $"Project: {coverageEntity.Project} ";
+                project = $"Project: {coverageEntity.Project}, ";
             }
             var title = $"{project}涵蓋率未通過數量: {failCount}";
             var attachment = new Attachment
