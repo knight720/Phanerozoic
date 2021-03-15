@@ -34,7 +34,7 @@ namespace Phanerozoic.Core.Services
             this._configuration = serviceProvider.GetRequiredService<IConfiguration>();
         }
 
-        public void Process(ReportEntity reportEntity, CoreMethodCoverageEntity coverageEntity)
+        public void Process(ReportEntity reportEntity, RepositoryCoverageEntity coverageEntity)
         {
             if (this._fileHelper.Exists(reportEntity.FilePath) == false)
             {
@@ -69,7 +69,7 @@ namespace Phanerozoic.Core.Services
         /// <param name="reportEntity">The report entity.</param>
         /// <param name="coverageEntity">The coverage entity.</param>
         /// <exception cref="NotImplementedException"></exception>
-        public void ProcessParserAndCollect(ReportEntity reportEntity, CoreMethodCoverageEntity coverageEntity)
+        public void ProcessParserAndCollect(ReportEntity reportEntity, RepositoryCoverageEntity coverageEntity)
         {
             if (this._fileHelper.Exists(reportEntity.FilePath) == false)
             {
@@ -92,7 +92,7 @@ namespace Phanerozoic.Core.Services
         /// <param name="reportEntity">The report entity.</param>
         /// <param name="coverageEntity">The coverage entity.</param>
         /// <exception cref="NotImplementedException"></exception>
-        public void ProcessUpdateAndNotify(CoreMethodCoverageEntity coverageEntity)
+        public void ProcessUpdateAndNotify(RepositoryCoverageEntity coverageEntity)
         {
             //// Load Coverage From Collect
             Console.WriteLine("* Collect");

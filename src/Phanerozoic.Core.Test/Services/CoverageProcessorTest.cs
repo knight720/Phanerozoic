@@ -63,7 +63,7 @@ namespace Phanerozoic.Core.Test.Services
             {
                 FilePath = "report.json"
             };
-            var coverageEntity = new CoreMethodCoverageEntity
+            var coverageEntity = new RepositoryCoverageEntity
             {
                 CoverageFileName = "coverage.csv"
             };
@@ -74,10 +74,10 @@ namespace Phanerozoic.Core.Test.Services
             target.Process(reportEntity, coverageEntity);
 
             //// assert
-            this._stubReportParser.Received(1).Parser(Arg.Any<CoreMethodCoverageEntity>(), Arg.Any<ReportEntity>());
-            this._stubCoverageUpdater.Received(1).Update(Arg.Any<CoreMethodCoverageEntity>(), Arg.Any<IList<CoverageEntity>>());
-            this._stubNotifyer.Received(1).Notify(Arg.Any<CoreMethodCoverageEntity>(), Arg.Any<IList<CoverageEntity>>());
-            this._stubEmailNotifyer.Received(1).Notify(Arg.Any<CoreMethodCoverageEntity>(), Arg.Any<IList<CoverageEntity>>());
+            this._stubReportParser.Received(1).Parser(Arg.Any<RepositoryCoverageEntity>(), Arg.Any<ReportEntity>());
+            this._stubCoverageUpdater.Received(1).Update(Arg.Any<RepositoryCoverageEntity>(), Arg.Any<IList<CoverageEntity>>());
+            this._stubNotifyer.Received(1).Notify(Arg.Any<RepositoryCoverageEntity>(), Arg.Any<IList<CoverageEntity>>());
+            this._stubEmailNotifyer.Received(1).Notify(Arg.Any<RepositoryCoverageEntity>(), Arg.Any<IList<CoverageEntity>>());
             this._stubCoverageLogger.Received(1).Log(Arg.Any<IList<CoverageEntity>>());
         }
 
@@ -90,7 +90,7 @@ namespace Phanerozoic.Core.Test.Services
             {
                 FilePath = "report.json"
             };
-            var coverageEntity = new CoreMethodCoverageEntity
+            var coverageEntity = new RepositoryCoverageEntity
             {
                 CoverageFileName = "coverage.csv"
             };

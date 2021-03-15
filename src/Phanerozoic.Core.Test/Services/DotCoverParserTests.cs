@@ -100,7 +100,7 @@ namespace Phanerozoic.Core.Services.Tests
 
             this._stubFileHelper.ReadAllText(Arg.Any<string>()).Returns(reportJson);
 
-            var coverageEntity = new CoreMethodCoverageEntity
+            var coverageEntity = new RepositoryCoverageEntity
             {
                 Repository = "Phanerozoic",
             };

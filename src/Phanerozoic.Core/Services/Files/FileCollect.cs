@@ -25,7 +25,7 @@ namespace Phanerozoic.Core.Services.Files
         /// <param name="coverageEntity">The coverage entity.</param>
         /// <param name="methodList">The method list.</param>
         /// <returns></returns>
-        public string Collect(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
+        public string Collect(RepositoryCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
         {
             var fileMethodList = LoadCollect(coverageEntity);
 
@@ -45,7 +45,7 @@ namespace Phanerozoic.Core.Services.Files
         /// </summary>
         /// <param name="coverageEntity">The coverage entity.</param>
         /// <returns></returns>
-        public IList<CoverageEntity> LoadCollect(CoreMethodCoverageEntity coverageEntity)
+        public IList<CoverageEntity> LoadCollect(RepositoryCoverageEntity coverageEntity)
         {
             var fileName = GetFileName(coverageEntity);
 
@@ -117,7 +117,7 @@ namespace Phanerozoic.Core.Services.Files
             File.WriteAllText(fileName, data);
         }
 
-        private string GetFileName(CoreMethodCoverageEntity coreMethodCoverage)
+        private string GetFileName(RepositoryCoverageEntity coreMethodCoverage)
         {
             return Path.Combine(coreMethodCoverage.OutputPath, $"{coreMethodCoverage.Repository}_{this._dateTimeHelper.Now.ToString(Format)}.json");
         }

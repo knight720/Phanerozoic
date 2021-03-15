@@ -2,7 +2,7 @@
 
 namespace Phanerozoic.Core.Entities
 {
-    public class CoreMethodCoverageEntity
+    public class RepositoryCoverageEntity
     {
         public string CoverageFileName { get; set; }
 

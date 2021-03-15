@@ -42,7 +42,7 @@ namespace Phanerozoic.Core.Services.Googles
             Console.WriteLine($"Target Sheets ID: {_sheetsId}");
         }
 
-        public IList<CoverageEntity> Update(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> reportMethodList)
+        public IList<CoverageEntity> Update(RepositoryCoverageEntity coverageEntity, IList<CoverageEntity> reportMethodList)
         {
             var reportMethodTotalCount = reportMethodList.Count;
             reportMethodList = FilterMethod(coverageEntity, reportMethodList);
@@ -100,7 +100,7 @@ namespace Phanerozoic.Core.Services.Googles
         /// <param name="coverageEntity"></param>
         /// <param name="methodList"></param>
         /// <returns></returns>
-        private IList<CoverageEntity> FilterMethod(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
+        private IList<CoverageEntity> FilterMethod(RepositoryCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
         {
             var query = methodList.AsQueryable();
             query = query.Where(i => i.Repository == coverageEntity.Repository);

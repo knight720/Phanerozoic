@@ -29,7 +29,7 @@ namespace Phanerozoic.Core.Services.Slacks
             _slackGroupIdDictionary = configuration.GetSection("Slack:GroupId").Get<Dictionary<string, string>>();
         }
 
-        public void Notify(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
+        public void Notify(RepositoryCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
         {
             var slackMessageJson = GetSlackMessage(coverageEntity, methodList);
 
@@ -41,7 +41,7 @@ namespace Phanerozoic.Core.Services.Slacks
             _slackService.SendAsync(_webHookUrl, slackMessageJson);
         }
 
-        private string GetMessage(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
+        private string GetMessage(RepositoryCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
         {
             var stringBuilder = new StringBuilder();
             stringBuilder.AppendLine($"Phanerozoic Notify @{DateTime.Now.ToString(DateTimeHelper.Format)}");
@@ -65,7 +65,7 @@ namespace Phanerozoic.Core.Services.Slacks
             return json;
         }
 
-        private string GetSlackMessage(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
+        private string GetSlackMessage(RepositoryCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
         {
             var failCount = methodList.Count(i => i.IsPass == false);
             if (failCount == 0)

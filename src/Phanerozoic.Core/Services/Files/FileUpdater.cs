@@ -18,7 +18,7 @@ namespace Phanerozoic.Core.Services.Files
             _fileHelper = serviceProvider.GetService<IFileHelper>();
         }
 
-        public IList<CoverageEntity> Update(CoreMethodCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
+        public IList<CoverageEntity> Update(RepositoryCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
         {
             var stringBuilder = new StringBuilder();
 

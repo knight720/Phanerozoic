@@ -30,7 +30,7 @@ namespace Phanerozoic.Core.Services.Files.Tests
             var excpted = Path.Combine(outputPath, $"{repositoryName}_{dateTime.ToString("yyyyMMdd")}.json");
 
             IList<CoverageEntity> methodList = new List<CoverageEntity>();
-            CoreMethodCoverageEntity coverageEntity = new CoreMethodCoverageEntity
+            RepositoryCoverageEntity coverageEntity = new RepositoryCoverageEntity
             {
                 Repository = repositoryName,
                 Project = projectName,

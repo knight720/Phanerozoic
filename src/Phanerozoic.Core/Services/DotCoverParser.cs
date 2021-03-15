@@ -25,7 +25,7 @@ namespace Phanerozoic.Core.Services
             bool.TryParse(this._configuration["Parser:PrintMethod"], out this._printMethod);
         }
 
-        public IList<CoverageEntity> Parser(CoreMethodCoverageEntity coverageEntity, ReportEntity reportEntity)
+        public IList<CoverageEntity> Parser(RepositoryCoverageEntity coverageEntity, ReportEntity reportEntity)
         {
             var json = this._fileHelper.ReadAllText(reportEntity.FilePath);
             var report = JsonSerializer.Deserialize<DotCoverReport>(json);

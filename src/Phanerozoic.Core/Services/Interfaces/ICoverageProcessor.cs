@@ -4,10 +4,10 @@ namespace Phanerozoic.Core.Services.Interfaces
 {
     public interface ICoverageProcessor
     {
-        void Process(ReportEntity reportEntity, CoreMethodCoverageEntity coverageEntity);
+        void Process(ReportEntity reportEntity, RepositoryCoverageEntity coverageEntity);
 
-        void ProcessParserAndCollect(ReportEntity reportEntity, CoreMethodCoverageEntity coverageEntity);
+        void ProcessParserAndCollect(ReportEntity reportEntity, RepositoryCoverageEntity coverageEntity);
 
-        void ProcessUpdateAndNotify(CoreMethodCoverageEntity coverageEntity);
+        void ProcessUpdateAndNotify(RepositoryCoverageEntity coverageEntity);
     }
 }

@@ -28,7 +28,7 @@ namespace Phanerozoic.Core.Test.Services
         {
             //// Arrange
             var methodList = new List<CoverageEntity>();
-            var coverageEntity = new CoreMethodCoverageEntity
+            var coverageEntity = new RepositoryCoverageEntity
             {
                 CoverageFileName = "a.txt",
                 OutputPath = @"D:\",

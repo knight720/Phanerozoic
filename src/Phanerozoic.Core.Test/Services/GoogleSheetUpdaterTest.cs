@@ -37,7 +37,7 @@ namespace Phanerozoic.Core.Test.Services
         public void Test_取得目前的涵蓋率()
         {
             //// Arrange
-            var coverageEntity = new CoreMethodCoverageEntity();
+            var coverageEntity = new RepositoryCoverageEntity();
             var methodList = new List<CoverageEntity>();
 
             this._stubConfiguration["Google.Sheets.SheetsId"].Returns("target Id");
