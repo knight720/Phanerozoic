@@ -26,7 +26,8 @@ namespace Phanerozoic.Core.Services.Googles
             var maxRow = string.Empty;
             var sheetName = "Coverage";
             IList<CoverageEntity> sheetMethodList = new List<CoverageEntity>();
-            IList<IList<object>> values = this._googleSheetsService.GetValues(this._sheetsId, $"{sheetName}!A{startIndex + 1}:I{maxRow}");
+            //// TODO J 須為動態
+            IList<IList<object>> values = this._googleSheetsService.GetValues(this._sheetsId, $"{sheetName}!A{startIndex + 1}:J{maxRow}");
 
             var index = startIndex;
             if (values != null && values.Count > 0)
@@ -35,7 +36,7 @@ namespace Phanerozoic.Core.Services.Googles
                 {
                     index++;
 
-                    if (row.Count < 9)
+                    if (row.Count < 10)
                     {
                         Console.WriteLine($"Pass Sheet Row:{index}, Value: {row.EnumerableToString()}");
                         continue;

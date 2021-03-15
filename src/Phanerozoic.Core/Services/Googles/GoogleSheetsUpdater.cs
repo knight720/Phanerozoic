@@ -87,7 +87,7 @@ namespace Phanerozoic.Core.Services.Googles
                 {
                     UpdateCell($"H{coreMethod.RawIndex}", coreMethod.NewTargetCoverage);
                 }
-                UpdateCell($"L{coreMethod.RawIndex}", DateTime.Now.ToString(DateTimeHelper.Format));
+                UpdateCell($"M{coreMethod.RawIndex}", DateTime.Now.ToString(DateTimeHelper.Format));
             }
             Console.WriteLine($"Update Rate: {updateCount}/{sheetMethodList.Count}");
 
