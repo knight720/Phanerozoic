@@ -47,7 +47,7 @@ namespace Phanerozoic.Core.Services.Slacks
 
                 if (string.IsNullOrWhiteSpace(slackMessageJson))
                 {
-                    return;
+                    continue;
                 }
 
                 _slackService.SendAsync(_webHookUrl, slackMessageJson);
