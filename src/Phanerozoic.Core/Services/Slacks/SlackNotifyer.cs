@@ -50,6 +50,7 @@ namespace Phanerozoic.Core.Services.Slacks
                     continue;
                 }
 
+                Console.WriteLine($"Slack Method Level: {level}");
                 _slackService.SendAsync(_webHookUrl, slackMessageJson);
             }
         }
