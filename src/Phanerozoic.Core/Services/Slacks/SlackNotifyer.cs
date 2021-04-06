@@ -15,9 +15,11 @@ namespace Phanerozoic.Core.Services.Slacks
     {
         private readonly ISlackService _slackService;
 
-        private string _webHookUrl;
+        private readonly string _webHookUrl;
 
-        private IDictionary<string, string> _slackGroupIdDictionary;
+        private readonly IDictionary<string, string> _slackGroupIdDictionary;
+
+        private readonly IDictionary<MethodLevel, string> _levelColorDictionary;
 
         public SlackNotifyer(IServiceProvider serviceProvider)
         {
@@ -27,18 +29,29 @@ namespace Phanerozoic.Core.Services.Slacks
             _webHookUrl = configuration["Slack:WebHookUrl"];
 
             _slackGroupIdDictionary = configuration.GetSection("Slack:GroupId").Get<Dictionary<string, string>>();
+
+            this._levelColorDictionary = new Dictionary<MethodLevel, string>
+            {
+                { MethodLevel.High, "#FF0000"} ,
+                { MethodLevel.Middle, "#FFA500"} ,
+            };
         }
 
         public void Notify(RepositoryCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
         {
-            var slackMessageJson = GetSlackMessage(coverageEntity, methodList);
-
-            if (string.IsNullOrWhiteSpace(slackMessageJson))
+            foreach (var level in this._levelColorDictionary.Keys)
             {
-                return;
-            }
+                var levelMethodList = methodList.Where(i => i.Level == level).ToList();
 
-            _slackService.SendAsync(_webHookUrl, slackMessageJson);
+                var slackMessageJson = GetSlackMessage(coverageEntity, levelMethodList, level);
+
+                if (string.IsNullOrWhiteSpace(slackMessageJson))
+                {
+                    return;
+                }
+
+                _slackService.SendAsync(_webHookUrl, slackMessageJson);
+            }
         }
 
         private string GetMessage(RepositoryCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
@@ -65,7 +78,7 @@ namespace Phanerozoic.Core.Services.Slacks
             return json;
         }
 
-        private string GetSlackMessage(RepositoryCoverageEntity coverageEntity, IList<CoverageEntity> methodList)
+        private string GetSlackMessage(RepositoryCoverageEntity coverageEntity, IList<CoverageEntity> methodList, MethodLevel level)
         {
             var failCount = methodList.Count(i => i.IsPass == false);
             if (failCount == 0)
@@ -73,13 +86,15 @@ namespace Phanerozoic.Core.Services.Slacks
                 return null;
             }
 
-            var color = failCount > 0 ? "#FF0000" : "#00FF00";
+            var color = this._levelColorDictionary[level];
+            color = failCount > 0 ? color : "#00FF00";
+
             var project = string.Empty;
             if (string.IsNullOrWhiteSpace(coverageEntity.Project) == false)
             {
                 project = $"Project: {coverageEntity.Project}, ";
             }
-            var title = $"{project}涵蓋率未通過數量: {failCount}";
+            var title = $"{project}{level} 涵蓋率未通過數量: {failCount}";
             var attachment = new Attachment
             {
                 Color = color,

@@ -29,12 +29,11 @@ namespace Phanerozoic.Core.Helpers.Tests
         {
             ObjectToEnumAssert(MethodLevel.High.ToString(), MethodLevel.High);
             ObjectToEnumAssert(MethodLevel.Middle.ToString(), MethodLevel.Middle);
-            ObjectToEnumAssert(MethodLevel.Low.ToString(), MethodLevel.Low);
             ObjectToEnumAssert(MethodLevel.Middle.ToString().ToLower(), MethodLevel.Middle);
             ObjectToEnumAssert($" {MethodLevel.Middle.ToString().ToLower()} ", MethodLevel.Middle);
             ObjectToEnumAssert($" {MethodLevel.Middle.ToString()} ", MethodLevel.Middle);
-            ObjectToEnumAssert(null, MethodLevel.Low);
-            ObjectToEnumAssert("ErrorValue", MethodLevel.Low);
+            ObjectToEnumAssert(null, MethodLevel.Middle);
+            ObjectToEnumAssert("ErrorValue", MethodLevel.Middle);
         }
 
         private static void ObjectToEnumAssert(object value, MethodLevel expected)

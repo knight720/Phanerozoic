@@ -6,11 +6,6 @@
     public enum MethodLevel
     {
         /// <summary>
-        /// 低
-        /// </summary>
-        Low,
-
-        /// <summary>
         /// 中
         /// </summary>
         Middle,
