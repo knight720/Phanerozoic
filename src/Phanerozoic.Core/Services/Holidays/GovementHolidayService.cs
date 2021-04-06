@@ -4,11 +4,11 @@ using Phanerozoic.Core.Services.Interfaces;
 
 namespace Phanerozoic.Core.Services.Holidays
 {
-    public class GovementHoliday : IHolidayService
+    public class GovementHolidayService : IHolidayService
     {
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public GovementHoliday(IHttpClientFactory httpClientFactory)
+        public GovementHolidayService(IHttpClientFactory httpClientFactory)
         {
             this._httpClientFactory = httpClientFactory;
         }
