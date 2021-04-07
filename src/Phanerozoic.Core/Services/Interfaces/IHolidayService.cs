@@ -2,7 +2,7 @@
 
 namespace Phanerozoic.Core.Services.Interfaces
 {
-    internal interface IHolidayService
+    public interface IHolidayService
     {
         bool IsHoliday(DateTime date);
     }
