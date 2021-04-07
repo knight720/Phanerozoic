@@ -25,6 +25,8 @@ namespace Phanerozoic.Core.Test.Services
         private readonly ICoverageLogger _stubCoverageLogger;
         private readonly ICoverageCollect _stubCoverageCollect;
         private readonly IConfiguration _stubConfiguration;
+        private readonly IHolidayService _stubHolidayService;
+        private readonly IDateTimeHelper _stubDateTimeHelper;
 
         public CoverageProcessorTest()
         {
@@ -36,6 +38,8 @@ namespace Phanerozoic.Core.Test.Services
             this._stubCoverageLogger = Substitute.For<ICoverageLogger>();
             this._stubCoverageCollect = Substitute.For<ICoverageCollect>();
             this._stubConfiguration = Substitute.For<IConfiguration>();
+            this._stubHolidayService = Substitute.For<IHolidayService>();
+            this._stubDateTimeHelper = Substitute.For<IDateTimeHelper>();
 
             this._stubServiceProvider = Substitute.For<IServiceProvider>();
             this._stubServiceProvider.GetService<IFileHelper>().Returns(this._stubFileHelper);
@@ -49,6 +53,8 @@ namespace Phanerozoic.Core.Test.Services
             this._stubServiceProvider.GetService<ICoverageLogger>().Returns(this._stubCoverageLogger);
             this._stubServiceProvider.GetService<ICoverageCollect>().Returns(this._stubCoverageCollect);
             this._stubServiceProvider.GetService<IConfiguration>().Returns(this._stubConfiguration);
+            this._stubServiceProvider.GetService<IHolidayService>().Returns(this._stubHolidayService);
+            this._stubServiceProvider.GetService<IDateTimeHelper>().Returns(this._stubDateTimeHelper);
 
             //this._stubServiceProvider.GetServices<INotifyer>();
             //this._stubServiceProvider.GetServices<INotifyer>().Returns(new List<INotifyer> { this._stubNotifyer, this._stubEmailNotifyer });

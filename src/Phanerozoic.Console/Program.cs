@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Phanerozoic.Console.Constents;
@@ -9,6 +10,7 @@ using Phanerozoic.Core.Services;
 using Phanerozoic.Core.Services.Emails;
 using Phanerozoic.Core.Services.Files;
 using Phanerozoic.Core.Services.Googles;
+using Phanerozoic.Core.Services.Holidays;
 using Phanerozoic.Core.Services.Interfaces;
 using Phanerozoic.Core.Services.Slacks;
 
@@ -101,7 +103,16 @@ namespace Phanerozoic.Console
                 .Build();
 
             serviceCollection.AddSingleton<IConfiguration>(configurationRoot);
-            serviceCollection.AddHttpClient();
+
+            serviceCollection.AddSingleton<IHolidayService>(sp =>
+            {
+                var httpClientFactory = sp.GetRequiredService<IHttpClientFactory>();
+
+                var collect = new HolidayCollectServcie();
+                collect.Add(new WeekendService());
+                collect.Add(new GovementHolidayService(httpClientFactory));
+                return collect;
+            });
 
             return configurationRoot;
         }

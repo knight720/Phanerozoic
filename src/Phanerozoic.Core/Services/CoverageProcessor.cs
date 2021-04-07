@@ -22,6 +22,8 @@ namespace Phanerozoic.Core.Services
         private readonly INotifyer _emailNotifyer;
         private readonly ICoverageLogger _coverageLogger;
         private readonly IConfiguration _configuration;
+        private readonly IHolidayService _holidayService;
+        private readonly IDateTimeHelper _dateTimeHelper;
 
         public CoverageProcessor(IServiceProvider serviceProvider)
         {
@@ -32,6 +34,8 @@ namespace Phanerozoic.Core.Services
             this._coverageUpdater = serviceProvider.GetRequiredService<ICoverageUpdater>();
             this._coverageLogger = serviceProvider.GetRequiredService<ICoverageLogger>();
             this._configuration = serviceProvider.GetRequiredService<IConfiguration>();
+            this._holidayService = serviceProvider.GetRequiredService<IHolidayService>();
+            this._dateTimeHelper = serviceProvider.GetRequiredService<IDateTimeHelper>();
         }
 
         public void Process(ReportEntity reportEntity, RepositoryCoverageEntity coverageEntity)
@@ -129,7 +133,10 @@ namespace Phanerozoic.Core.Services
 
         protected virtual bool IsSendSlack()
         {
-            return this._configuration.GetValue<bool>("Slack", true);
+            var result = this._configuration.GetValue<bool>("Slack", true);
+            var isHoliday = this._holidayService.IsHoliday(this._dateTimeHelper.Now);
+            Console.WriteLine($"Slack: {result}, isHoliday: {isHoliday}");
+            return result && (isHoliday == false);
         }
     }
 }
