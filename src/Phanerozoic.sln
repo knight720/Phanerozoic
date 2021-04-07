@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Phanerozoic.Core", "Phanero
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Phanerozoic.Core.Test", "Phanerozoic.Core.Test\Phanerozoic.Core.Test.csproj", "{1C6D0E9B-D377-4A4D-894F-1E0190DB2F98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phanerozoic.Duplication", "Phanerozoic.Duplication\Phanerozoic.Duplication.csproj", "{D4C55382-0E38-4B4C-87A4-63387C87C0A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Phanerozoic.Duplication", "Phanerozoic.Duplication\Phanerozoic.Duplication.csproj", "{D4C55382-0E38-4B4C-87A4-63387C87C0A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
