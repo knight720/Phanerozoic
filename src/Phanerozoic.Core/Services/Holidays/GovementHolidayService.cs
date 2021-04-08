@@ -21,12 +21,13 @@ namespace Phanerozoic.Core.Services.Holidays
         {
             var url = "https://data.ntpc.gov.tw/api/datasets/308DCD75-6434-45BC-A95F-584DA4FED251/json?page=1&size=950";
             var httpResponseMessage = this._httpClient.GetAsync(url).GetAwaiter().GetResult();
-            Console.WriteLine($"StatusCode: {httpResponseMessage.StatusCode}");
+            Console.WriteLine($"Open API StatusCode: {httpResponseMessage.StatusCode}");
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 var content = httpResponseMessage.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+
                 var holidayList = JsonSerializer.Deserialize<IList<Holiday>>(content);
-                var holiday = holidayList.FirstOrDefault(i => i.Date.Equals(date.Date));
+                var holiday = holidayList.FirstOrDefault(i => i.Date.Equals(date.ToString("yyyy/M/d")));
                 if (holiday == null)
                 {
                     return false;
@@ -57,8 +58,9 @@ namespace Phanerozoic.Core.Services.Holidays
 
             public override string ToString()
             {
-                var result = "{Date}, {Name}, {IsHoliday}, {HolidatyCategory}, {Description}";
-                return result;
+                var list = new string[] { Date, Name, IsHoliday, HolidayCategory, Description };
+                list = list.Where(i => string.IsNullOrWhiteSpace(i) == false).ToArray();
+                return string.Join(", ", list);
             }
         }
     }
